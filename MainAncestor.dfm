@@ -866,9 +866,9 @@ object frmMainAncestor: TfrmMainAncestor
       end>
   end
   object lvwItems: TMyListView
-    Left = 0
+    Left = 175
     Top = 88
-    Width = 897
+    Width = 722
     Height = 327
     Align = alClient
     Columns = <>
@@ -878,6 +878,31 @@ object frmMainAncestor: TfrmMainAncestor
     ViewStyle = vsReport
     OnDblClick = btnEditClick
     OnSelectItem = lvwItemsSelectItem
+    ExplicitLeft = 180
+    ExplicitTop = 92
+  end
+  object pnlExtra: TPanel
+    Left = 0
+    Top = 88
+    Width = 175
+    Height = 327
+    Align = alLeft
+    Caption = 'pnlExtra'
+    TabOrder = 4
+    Visible = False
+    object lvwExtra: TListView
+      Left = 1
+      Top = 1
+      Width = 173
+      Height = 325
+      Align = alClient
+      Columns = <>
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnDblClick = btnEditClick
+      OnSelectItem = lvwItemsSelectItem
+      ExplicitWidth = 178
+    end
   end
   object imgMainButtons: TImageList
     DrawingStyle = dsTransparent
@@ -887,7 +912,7 @@ object frmMainAncestor: TfrmMainAncestor
     Left = 48
     Top = 232
     Bitmap = {
-      494C01011F002200980020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F002200A00020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5122,7 +5147,7 @@ object frmMainAncestor: TfrmMainAncestor
     Left = 48
     Top = 160
     Bitmap = {
-      494C010113001800980010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010113001800A00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

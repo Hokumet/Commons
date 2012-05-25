@@ -1,4 +1,4 @@
-program IhhAdm;
+program IhhLed;
 
 uses
   Vcl.Forms,

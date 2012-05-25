@@ -52,6 +52,8 @@ type
     DBTClone: TADOTable;
     ToolButton2: TToolButton;
     btnPrinten: TToolButton;
+    pnlExtra: TPanel;
+    lvwExtra: TListView;
     procedure FormCreate(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure lvwItemsSelectItem(Sender: TObject; Item: TListItem;
@@ -87,6 +89,7 @@ type
     DatabaseName: String;
     objectType: String;
     CurrentTable: TADOTable;
+    ExtraTable: TADOTable;
     CurrentId: Integer;
     AdoTableList: TObjectList;
     Filtering: Boolean;
@@ -109,10 +112,12 @@ type
     procedure OpenSettings(frmSettingAnc: TfrmSettingAncestor);
     procedure ShowOverzicht; virtual;
     procedure addColumn(Name: STring; Size: Integer); overload;
-    procedure addColumn(Name: STring; Size: Integer;
-      alignment: TAlignment); overload;
+    procedure addColumn(Name: STring; Size: Integer; alignment: TAlignment); overload;
     procedure addColumn(CaptionName, FieldName: string; Size: Integer);overload;
+    procedure addColumn(CaptionName, FieldName: string; Size: Integer; lvw: TListView);overload;
     procedure addColumn(CaptionName, FieldName, FieldType: string; Size: Integer);overload;
+    procedure addColumn(CaptionName, FieldName, FieldType: string; Size: Integer; lvw: TListView);overload;
+    procedure addColumn(CaptionName, FieldName, FieldType: string; Size: Integer; lvw: TListView;  alignment: TAlignment);overload;
     procedure OpenDatasets; virtual;
     procedure ExecuteFix; virtual;
     procedure SetDBReady(Filter, SortField: String);
@@ -183,17 +188,24 @@ procedure TfrmMainAncestor.lvwItemsSelectItem(Sender: TObject; Item: TListItem;
   Selected: Boolean);
 begin
   btnNew.Enabled := True;
-  if NOT(lvwItems.Selected = nil) then
+  if Selected then
   begin
-    CurrentId := Integer(lvwItems.Selected.Data);
-    btnEdit.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
-    btnDelete.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
-    btnPrint.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
-    pmpNewKopie.Visible := not(Selected and (lvwItems.Selected.Data = nil));
+    //CurrentId := Integer(lvwItems.Selected.Data);
+    //btnEdit.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
+   // btnDelete.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
+   // btnPrint.Enabled := not(Selected and (lvwItems.Selected.Data = nil));
+    CurrentId :=Integer(Item.ListView.Selected.Data);
+    btnEdit.Enabled := Selected;
+    btnDelete.Enabled := Selected;
+    btnPrint.Enabled := Selected;
+    //pmpNewKopie.Visible := not(Selected and (lvwItems.Selected.Data = nil));
 
-    pmpNewKopie.Visible := Selected and not((lvwItems.Selected = nil)) and
-      not((lvwItems.Selected.Data = nil));
+    //pmpNewKopie.Visible := Selected and not((lvwItems.Selected = nil)) and not((lvwItems.Selected.Data = nil));
   end
+  else begin
+    btnEdit.Enabled := false;
+    btnDelete.Enabled := false;
+  end;
 end;
 
 procedure TfrmMainAncestor.Refresh;
@@ -410,8 +422,7 @@ begin
   lvwItems.Columns.EndUpdate;
 end;
 
-procedure TfrmMainAncestor.addColumn(Name: String; Size: Integer;
-  alignment: TAlignment);
+procedure TfrmMainAncestor.addColumn(Name: String; Size: Integer; alignment: TAlignment);
 var
   column: TListColumn;
 begin
@@ -423,24 +434,44 @@ begin
   lvwItems.Columns.EndUpdate;
 end;
 
+procedure TfrmMainAncestor.addColumn(CaptionName, FieldName: string; Size: Integer);
+begin
+  addColumn(CaptionName, FieldName, 'edt', Size);
+end;
+
+procedure TfrmMainAncestor.addColumn(CaptionName, FieldName: string;  Size: Integer; lvw: TListView);
+begin
+  addColumn(CaptionName, FieldName, 'edt', Size, lvw);
+end;
+
 procedure TfrmMainAncestor.addColumn(CaptionName, FieldName, FieldType: string; Size: Integer);
+begin
+  addColumn(CaptionName, FieldName, FieldType, Size, lvwItems);
+end;
+
+procedure TfrmMainAncestor.addColumn(CaptionName, FieldName,FieldType: string; Size: Integer; lvw: TListView);
+begin
+  if FieldType = 'curr' then
+    addColumn(CaptionName, FieldName, FieldType, Size, lvw, taRightJustify)
+  else
+    addColumn(CaptionName, FieldName, FieldType, Size, lvw, taLeftJustify)
+end;
+
+procedure TfrmMainAncestor.addColumn(CaptionName, FieldName, FieldType: string; Size: Integer; lvw: TListView; alignment: TAlignment);
 var
   column: TListColumn;
 begin
-  column := lvwItems.Columns.Add;
+  if lvw = nil then
+    column := lvwItems.Columns.Add
+  else
+    column := lvw.Columns.Add;
   column.Caption := CaptionName;
   column.Width := Size;
-  column.alignment := taLeftJustify;
+  column.alignment := alignment;
   FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
   FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
 end;
 
-
-procedure TfrmMainAncestor.addColumn(CaptionName, FieldName: string;
-  Size: Integer);
-begin
-  addColumn(CaptionName, FieldName, 'edt', Size);
-end;
 
 procedure TfrmMainAncestor.btnaboutClick(Sender: TObject);
 begin
@@ -536,7 +567,6 @@ begin
       // else
       // btnGebruikers.Visible := not(userType = 1);
   end;
-
 {$ENDIF}
 end;
 
@@ -788,5 +818,6 @@ begin
   end;
   Screen.Cursor := crDefault;
 end;
+
 
 end.

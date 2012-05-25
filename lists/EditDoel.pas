@@ -9,6 +9,8 @@ uses
 
 type
   TfrmEditDoel = class(TfrmHEdit)
+    edtNaam: TEdit;
+    Label1: TLabel;
   private
     { Private declarations }
   public

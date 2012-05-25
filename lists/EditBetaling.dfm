@@ -1,16 +1,17 @@
 inherited frmEditBetaling: TfrmEditBetaling
   Caption = 'frmEditBetaling'
-  ClientHeight = 166
-  ExplicitHeight = 204
+  ClientHeight = 137
+  ExplicitWidth = 415
+  ExplicitHeight = 175
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel3: TPanel
-    Top = 87
-    ExplicitTop = 193
+    Top = 58
+    ExplicitTop = 87
   end
   inherited pnlLabels: TPanel
-    Height = 87
-    ExplicitHeight = 193
+    Height = 58
+    ExplicitHeight = 87
     object Label1: TLabel
       Left = 16
       Top = 24
@@ -20,8 +21,8 @@ inherited frmEditBetaling: TfrmEditBetaling
     end
   end
   inherited pnlFields: TPanel
-    Height = 87
-    ExplicitHeight = 193
+    Height = 58
+    ExplicitHeight = 87
     object edtType: TEdit
       Left = 6
       Top = 16

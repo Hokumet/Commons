@@ -1,6 +1,5 @@
 inherited frmBroederImpl: TfrmBroederImpl
   Caption = 'frmBroederImpl'
-  ExplicitTop = 8
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlLabels: TPanel

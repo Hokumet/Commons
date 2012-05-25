@@ -27,7 +27,7 @@ type
     edtOmschrijving: TMemo;
     edtAlgemeen: TEdit;
   private
-    { Private declarations }
+    { Private declaratioh ns }
   public
     { Public declarations }
   end;

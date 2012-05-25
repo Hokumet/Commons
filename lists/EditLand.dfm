@@ -1,16 +1,17 @@
 inherited frmEditLand: TfrmEditLand
   Caption = 'frmEditLand'
-  ClientHeight = 143
-  ExplicitHeight = 181
+  ClientHeight = 137
+  ExplicitWidth = 415
+  ExplicitHeight = 175
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel3: TPanel
-    Top = 64
-    ExplicitTop = 124
+    Top = 58
+    ExplicitTop = 64
   end
   inherited pnlLabels: TPanel
-    Height = 64
-    ExplicitHeight = 124
+    Height = 58
+    ExplicitHeight = 64
     object Label1: TLabel
       Left = 16
       Top = 24
@@ -20,8 +21,8 @@ inherited frmEditLand: TfrmEditLand
     end
   end
   inherited pnlFields: TPanel
-    Height = 64
-    ExplicitHeight = 124
+    Height = 58
+    ExplicitHeight = 64
     object edtNaam: TEdit
       Left = 6
       Top = 16

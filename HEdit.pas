@@ -51,7 +51,8 @@ type
     procedure saveMemoField(memoField:TMeMo);
     procedure saveFields();
     procedure cancelFields();
-    procedure loadOnce(); virtual;
+    procedure BeforeLoad(); virtual;
+    procedure AfterLoad(); virtual;
   public
     constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable); overload;
     constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable; Key: String); overload;
@@ -73,7 +74,7 @@ begin
   TableObjectList := TObjectList.Create;
   CurrTable := AdoTable;
   CurrQuery.Connection := CurrTable.Connection;
-  loadOnce();
+  BeforeLoad();
   Self.Id := Id;
   if Id = 0 then begin
     CurrTable.Insert;
@@ -87,6 +88,7 @@ begin
     loadDetails();
     CurrTable.Edit;
   end;
+  AfterLoad();
   btnReset.Visible := not(Id = 0);
 end;
 
@@ -134,7 +136,7 @@ begin
   TableObjectList := TObjectList.Create;
   CurrTable := AdoTable;
   CurrQuery.Connection := CurrTable.Connection;
-  loadOnce();
+  BeforeLoad();
   Self.Id := Id;
   MasterKey := Key;
   if Id = 0  then begin
@@ -147,6 +149,7 @@ begin
     loadDetails();
     CurrTable.Edit;
   end;
+  AfterLoad();
   btnReset.Visible := not(Id = 0);
 end;
 
@@ -314,7 +317,12 @@ begin
   memoField.Lines.Add(value);
 end;
 
-procedure TfrmHEdit.loadOnce;
+procedure TfrmHEdit.AfterLoad;
+begin
+
+end;
+
+procedure TfrmHEdit.BeforeLoad;
 begin
 
 end;

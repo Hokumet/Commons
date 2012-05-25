@@ -15,7 +15,6 @@ type
     edtArm: TEdit;
   private
     { Private declarations }
-
   public
     constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable; Extra: String); overload;
   end;

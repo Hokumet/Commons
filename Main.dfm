@@ -1,10 +1,559 @@
 inherited frmMain: TfrmMain
-  Caption = 'frmMain'
+  Left = 49
+  Top = 0
+  Caption = 'Bilgi Bankasi'
+  ClientWidth = 1188
+  Position = poDesigned
+  ExplicitWidth = 1204
   PixelsPerInch = 96
   TextHeight = 13
+  inherited pnlHeader: TPanel
+    Width = 1188
+    Height = 29
+    ExplicitWidth = 1188
+    ExplicitHeight = 29
+    inherited lblHeader: TLabel
+      Width = 54
+      Caption = 'Arama'
+      ExplicitWidth = 54
+    end
+    object lblPlusMin: TLabel [1]
+      Left = 1176
+      Top = 9
+      Width = 13
+      Height = 19
+      Cursor = crHandPoint
+      Caption = '+'
+      Color = clBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblPlusMinClick
+    end
+    inherited edtZoeken: TEdit
+      Left = 13
+      Top = 6
+      Width = 25
+      Visible = False
+      ExplicitLeft = 13
+      ExplicitTop = 6
+      ExplicitWidth = 25
+    end
+    object zkLidnr: TEdit
+      Left = 88
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'Sira No'
+      HelpType = htKeyword
+      HelpKeyword = 'Lidnr'
+      NumbersOnly = True
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+      TextHint = 'Sira No'
+    end
+    object zkOmschrijving: TEdit
+      Left = 1049
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'A'#231'iklama'
+      HelpType = htKeyword
+      HelpKeyword = 'Omschrijving'
+      TabOrder = 2
+      TextHint = 'A'#231'iklama'
+    end
+    object zkNaam: TEdit
+      Left = 215
+      Top = 6
+      Width = 106
+      Height = 21
+      Hint = 'Adi Soyadi'
+      HelpType = htKeyword
+      HelpKeyword = 'Naam'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 3
+      TextHint = 'Adi Soyadi'
+    end
+    object zkStraat: TEdit
+      Left = 357
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'Adresi'
+      HelpType = htKeyword
+      HelpKeyword = 'Straat'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 4
+      TextHint = 'Adresi'
+    end
+    object zkPostcode: TEdit
+      Left = 493
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'Posta kodu'
+      HelpType = htKeyword
+      HelpKeyword = 'PostCode'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 5
+      TextHint = 'Posta kodu'
+    end
+    object zkPlaats: TEdit
+      Left = 631
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'Yasadigi sehir'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+      TextHint = 'Yasadigi sehir'
+    end
+    object zkTelefoon: TEdit
+      Left = 758
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'Telefon no'
+      HelpType = htKeyword
+      HelpKeyword = 'Telefoonnr'
+      NumbersOnly = True
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+      TextHint = 'Telefon No'
+    end
+    object zkEmail: TEdit
+      Left = 913
+      Top = 6
+      Width = 121
+      Height = 21
+      Hint = 'E-mail Adresi'
+      HelpType = htKeyword
+      HelpKeyword = 'Email'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 8
+      TextHint = 'E-mail adresi'
+    end
+    object btnZoeken: TBitBtn
+      Left = 7
+      Top = 3
+      Width = 75
+      Height = 27
+      Caption = 'Ara'
+      Glyph.Data = {
+        C60D0000424DC60D00000000000036000000280000001C0000001F0000000100
+        200000000000900D000000000000000000000000000000000000000000000000
+        0007000000330000004A0000002D000000050000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000022222201B9BCBB9FABADACFECFCFCFEE2D2D2D800000
+        002A000000020000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000ABABAB1AC5C2
+        C1FFC7C7C7FFB4B4B4FFCBCBCBE3070707670000001800000001000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000B1B1B10AAB8A8AE7DFD5D5FFB8B8B8FFC7C7C7FF9A9A
+        9AC0000000510000000B00000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000000000000000000000000000A18A
+        8A3CB29191F6E4DEDEFFAAAAAAFFD3D3D3FE5D5D5D9C0000003B000000040000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000A38A8A50BCA0A0FCE4E1E1FFA2A2
+        A2FFCFCFCFF32121217B00000025000000020000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000A68C8C68C7B0B0FFDCDBDBFFA4A4A4FFB4B4B4DA020202610000
+        0014000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000AA929283D2C0
+        C0FFD0D0D0FFAEAEAEFF848484B70000004B0000000900000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000AAABAB01B199999BDCD0D0FFBEBEBEFFB5B5B5FC4848
+        4892000000350000000300000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000000000000000000000000000AAAB
+        AB04B7A1A1B3E2DCDCFFAEAEAEFFAFAFAFED1414147300000020000000010000
+        0000000000000000000100000002000000030000000200000001000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000000AAA9A90BBFACACC6E5E1E1FFA4A4
+        A4FF969696D20000005B00000012000000080000001B00000031060606420202
+        024700000042000000340000001E0000000A0000000100000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000ABA5A514C9B8B8D8E0DEDEFFA4A5A5FF6A6A6AB0181818626E6E
+        6E8F7C7C7CCE939393EE9E9E9EFB969696F87C7C7CE9575757C8414141930303
+        03570000002B0000000800000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000AFA6A621C5BA
+        BAE5C0BEBEFFA4A4A4FFABABABFAC0BEBCEDDAD8CFB3DFDCCE8CDFDDCD88E8E6
+        DDAAEEEBE6C1DCDBD7DAA7A6A5FB6E6E6EE33434348A00000049000000110000
+        0001000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000A298986BBAB9B9FFC7C5C3F6CFC9BB9EEFE3
+        C957FEF9DA51FFFFEA75FFFFF394FFFFF494FFFEF495FFF8F298F7EEEAA2E0DF
+        DBD4908F8FFC4A4A4AA800000051000000100000000000000000000000000000
+        000000000000000000000000000000000000000000000000000048484806B7B7
+        B7B8CECCC9ECC9B8A479FBE3C854FFF3D051FFFBE582FFFDEE94FFFEF294FFFF
+        F494FFFFF494FFFFF494FFFCF396FFEFF19EE9E5E0BB959594FC474747A40000
+        0047000000080000000000000000000000000000000000000000000000000000
+        00000000000000000000BEBEBE7BD2D0CEF6BAA69281FAD8BC56FFEAC14EFFF7
+        DC80FFFBE594FFFCEB94FFFDEF94FFFDF294FFFEF394FFFFF494FFFFF494FFFD
+        F495FFEAEFA2E1DDD9BE828181FB2E2E2E820000002800000001000000000000
+        00000000000000000000000000000000000000000000A3A3A318D9D9D9F4B4A6
+        98AEEEC1AB60FFE1B54EFFEFCD6CFFF8DE94FFF9E394FFFAE894FFFBED94FFFC
+        EF94FFFCF094FFFDF194FFFEF394FFFFF594FFF8F399FFE5EDA6BFBEBBDD6262
+        62D5000000520000000800000000000000000000000000000000000000000000
+        000000000000D9D9D979CFCBC7EEBA947E79FDD1AA53FFDEB151FFF4D590FFF6
+        DB94FFF7E094FFF8E694FFF9EA94FFFAED94FFFBEE94FFFCEF94FFFCF094FFFD
+        F294FFFEF394FFE6EBA5ECE2DFAE858585FE2D2D2D7D0000001A000000000000
+        00000000000000000000000000000000000000000000E1E1E1C7B7AB9FC7DCA8
+        916EFFD2A14EFFE6BC6BFFF3D394FFF4D994FFF5DE94FFF6E394FFF7E894FFF8
+        EA94FFF8EB94FFF9EC94FFFAEE94FFFBEF94FFFCF194FFF4EE9BFFE4E7A8A3A2
+        9FEB4F4F4FAF0000002D00000000000000000000000000000000000000000000
+        000087878702E6E6E6F8A18C7AADE9B39364FFCD9A4DFFEBC481FFF1D194FFF2
+        D694FFF3DB94FFF4E194FFF5E694FFF6E794FFF7E994FFF8EA94FFF8EB94FFF9
+        ED94FFFAEE94FFFAEF95FFDDDEB0BAB8B4D2656565CF0000003B000000000000
+        000000000000000000000000000000000000A4A4A416EDEDECFF977C66A3ECB7
+        9362FFCC984DFFEEC98FFFF0CF94FFF0D494FFF1D994FFF2DE94FFF3E394FFF4
+        E594FFF5E694FFF6E794FFF7E994FFF8EA94FFF8EC94FFF9ED94FFDAD6B6BEBA
+        B4C7747474DB0000003E00000000000000000000000000000000000000000000
+        0000A4A4A413ECECECFF957C66A7E5B38D65FFCE9B50FFEFCB94FFEFCF94FFEF
+        D394FFF0D794FFF0DC94FFF1E094FFF2E294FFF3E494FFF4E594FFF5E694FFF6
+        E894FFF7E994FFF7EA94FFDBD2B6B8B4AEC8797979DA00000037000000000000
+        000000000000000000000000000000000000A1A1A101E6E6E6F49F8C7AB6D3A5
+        806FFECC984DFFD2A155FFDBAF61FFE1BA6BFFE4C374FFE7CB7AFFE9D27FFFEB
+        D682FFECD884FFEDD984FFEEDA82FFEED97DFFEED777FFEDD574FFDAC399A39E
+        97C9767676C90000002600000000000000000000000000000000000000000000
+        000000000000E3E3E3BDB7ACA1CFB38E6D85F9C79450FFEBC588FFEAC582FFE7
+        C57BFFE6C576FFE4C573FFE4C771FFE4C871FFE5C973FFE7CE77FFEAD37CFFED
+        D983FFF1E08CFFEFDE9AFEE6D2A9959391F06666669D00000012000000000000
+        00000000000000000000000000000000000000000000DDDDDD6AD7D4D1F39477
+        5A99DBAE8260FFEAC485FFEFCF94FFEFD394FFEFD794FFEFDB94FFEFDE94FFEF
+        DF94FFEFDF94FFEFDF94FFEFDF94FFF0E094FFF1E194FFE7D0A6DACCBDB69090
+        90FD363636530000000400000000000000000000000000000000000000000000
+        000000000000AEAEAE0CE6E6E6EAAB9E90C7A6856387F3D8B077FFEFCF94FFEF
+        D394FFEFD794FFEFDB94FFEFDE94FFEFDF94FFEFDF94FFEFDF94FFEFDF94FFEF
+        DF94FFECD99AFCE3CBA9989490E8929292C00000001800000000000000000000
+        0000000000000000000000000000000000000000000000000000D6D6D65DDBDA
+        D8FB94806BAEB1937286F8E8C898FFEFD394FFEFD794FFEFDB94FFEFDE94FFEF
+        DF94FFEFDF94FFEFDF94FFEFDF94FFEEDD96FCE3CCA7ADA59CD1A3A3A3F34B4B
+        4B3F000000020000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000DEDEDE92CFCDCAF794806CB2BFAB8FA6EFE0
+        C49FFCECD396FFEFDA94FFEFDE94FFEFDF94FFEFDF94FFEFDF94FDECDB98F4DF
+        CAA8ACA39AD3A8A8A8FA84848461000000050000000000000000000000000000
+        000000000000000000000000000000000000000000000000000000000000A8A8
+        A801DCDCDC8BD2D1D1FD9F958AD3C0B39DC1D6C8B2B2E5D7C3A5EFE0CF9EF2E3
+        D49DF0E0D19EE9D8C8A6CCBEB0BF999490EBB9B9B9F19999995A000000050000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000D3D3D346DDDDDDD2C9C8
+        C7FDB1ADA7EDAAA39AE0ACA49BD7A9A199D79F9992E1A5A39FF2BABABAFDD4D4
+        D4AE8C8C8C280000000200000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000A7A7A701CACACA42E5E5E58EE0E0E0B9DADADAC0DADA
+        DAC0E3E3E3AFDDDDDD7AAAAAAA26000000020000000000000000000000000000
+        00000000000000000000}
+      Layout = blGlyphRight
+      TabOrder = 9
+      OnClick = btnZoekenClick
+    end
+    object zkLidDatum: TEdit
+      Left = 88
+      Top = 29
+      Width = 26
+      Height = 21
+      Hint = 'Kayit G'#252'n'#252
+      HelpType = htKeyword
+      HelpKeyword = 'LidDag'
+      NumbersOnly = True
+      TabOrder = 10
+      TextHint = 'G'#252'n'
+    end
+    object edtLidMaand: TEdit
+      Left = 120
+      Top = 29
+      Width = 26
+      Height = 21
+      Hint = 'Kayit Ayi'
+      HelpType = htKeyword
+      HelpKeyword = 'LidMaand'
+      NumbersOnly = True
+      TabOrder = 11
+      TextHint = 'Ay'
+    end
+    object zkLidJaar: TEdit
+      Left = 152
+      Top = 29
+      Width = 42
+      Height = 21
+      Hint = 'Kayit Yili'
+      HelpType = htKeyword
+      HelpKeyword = 'LidJaar'
+      NumbersOnly = True
+      TabOrder = 12
+      TextHint = 'Yil'
+    end
+    object zkBetaling: TComboBox
+      Left = 215
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = 'Aidat Takip'
+      HelpType = htKeyword
+      HelpKeyword = 'Betaling'
+      TabOrder = 13
+      TextHint = 'Aidat takip'
+    end
+    object zkBedrag: THCurrencyEdit
+      Left = 493
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = 'Miktar'
+      HelpType = htKeyword
+      HelpKeyword = 'Bedrag'
+      TabOrder = 14
+      Alignment = taRightJustify
+      MaxValue = 99999999.000000000000000000
+    end
+    object zkBanknr: TEdit
+      Left = 357
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = 'Banka No'
+      HelpType = htKeyword
+      HelpKeyword = 'Bedrag'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 15
+      TextHint = 'Banka no'
+    end
+    object zkDoel: TComboBox
+      Left = 631
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = 'Ama'#231
+      HelpType = htKeyword
+      HelpKeyword = 'Doel'
+      TabOrder = 16
+      TextHint = 'Ama'#231
+    end
+    object zkLand: TComboBox
+      Left = 759
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = #220'lke'
+      HelpType = htKeyword
+      HelpKeyword = 'Land'
+      ParentShowHint = False
+      ShowHint = False
+      TabOrder = 17
+      TextHint = #220'lke'
+    end
+    object zkYFONaam: TEdit
+      Left = 913
+      Top = 29
+      Width = 106
+      Height = 21
+      Hint = 'Yetimin Adi'
+      HelpType = htKeyword
+      HelpKeyword = 'YFONaam'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 18
+      TextHint = 'Yetimin Adi'
+    end
+    object zkSpaarpotNr: TEdit
+      Left = 1049
+      Top = 29
+      Width = 121
+      Height = 21
+      Hint = 'Kumbara No'
+      HelpType = htKeyword
+      HelpKeyword = 'SpaarpotNr'
+      NumbersOnly = True
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 19
+      TextHint = 'Kumbara No'
+    end
+  end
+  inherited CoolBar: TCoolBar
+    Width = 1188
+    Bands = <
+      item
+        Control = ToolBar
+        ImageIndex = -1
+        MinHeight = 64
+        Width = 1186
+      end>
+    ExplicitWidth = 1188
+    inherited ToolBar: TToolBar
+      Width = 1177
+      ButtonWidth = 95
+      ExplicitWidth = 1177
+      inherited btnNew: TToolButton
+        Caption = '&Yeni'
+        ExplicitWidth = 110
+      end
+      inherited btnEdit: TToolButton
+        Left = 110
+        ExplicitLeft = 110
+        ExplicitWidth = 95
+      end
+      inherited btnDelete: TToolButton
+        Left = 205
+        ExplicitLeft = 205
+        ExplicitWidth = 95
+      end
+      inherited Seperator: TToolButton
+        Left = 300
+        Width = 8
+        ExplicitLeft = 300
+        ExplicitWidth = 8
+      end
+      inherited btnPrint: TToolButton
+        Left = 308
+        Visible = False
+        ExplicitLeft = 308
+        ExplicitWidth = 95
+      end
+      inherited btnPrinten: TToolButton
+        Left = 403
+        ExplicitLeft = 403
+        ExplicitWidth = 95
+      end
+      inherited ToolButton2: TToolButton
+        Left = 498
+        ExplicitLeft = 498
+      end
+      inherited btnBegin: TToolButton
+        Left = 506
+        HelpType = htKeyword
+        HelpKeyword = 'Algemeen'
+        Caption = 'Genel Adres'
+        Grouped = True
+        Style = tbsCheck
+        ExplicitLeft = 506
+        ExplicitWidth = 95
+      end
+      object btnDonatie: TToolButton
+        Left = 601
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Donatie'
+        Caption = 'Aylik Bagis'
+        Grouped = True
+        ImageIndex = 17
+        Style = tbsCheck
+        OnClick = btnDonatieClick
+      end
+      object btnWeesBroeder: TToolButton
+        Left = 696
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Wees'
+        Caption = 'Yetim Kardes Aile'
+        Grouped = True
+        ImageIndex = 17
+        Style = tbsCheck
+        OnClick = btnWeesBroederClick
+      end
+      object btnArmBroeder: TToolButton
+        Left = 791
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Arm'
+        Caption = 'Fakir Kardes Aile'
+        Grouped = True
+        ImageIndex = 17
+        Style = tbsCheck
+        OnClick = btnArmBroederClick
+      end
+      object btnVrijwilliger: TToolButton
+        Left = 886
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Vrijwilliger'
+        Caption = 'G'#246'n'#252'll'#252
+        Grouped = True
+        ImageIndex = 14
+        Style = tbsCheck
+        OnClick = btnVrijwilligerClick
+      end
+      object btnSpaarpot: TToolButton
+        Left = 981
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Spaarpot'
+        Caption = 'Kumbara'
+        Grouped = True
+        ImageIndex = 15
+        Style = tbsCheck
+        OnClick = btnSpaarpotClick
+      end
+      object btnBeurs: TToolButton
+        Left = 1076
+        Top = 0
+        HelpType = htKeyword
+        HelpKeyword = 'Beurs'
+        Caption = 'Burs'
+        Grouped = True
+        ImageIndex = 16
+        Style = tbsCheck
+      end
+    end
+  end
+  inherited StatusBar: TStatusBar
+    Width = 1188
+    ExplicitWidth = 1188
+  end
+  inherited lvwItems: TMyListView
+    Top = 89
+    Width = 1013
+    Height = 326
+    Columns = <
+      item
+        Caption = 'Hmm sas'
+        Width = 190
+      end>
+    Items.ItemData = {
+      05C00000000400000000000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000
+      00044E00610061006D00044E00610061006D00200DBF0E00000000FFFFFFFFFF
+      FFFFFF01000000FFFFFFFF000000000E49006E00730063006800720069006A00
+      660064006100740075006D000F49006E00730063006800720069006A00660020
+      0064006100740075006D00E80CBF0E00000000FFFFFFFFFFFFFFFF00000000FF
+      FFFFFF000000000000000000FFFFFFFFFFFFFFFF00000000FFFFFFFF00000000
+      00FFFFFFFF}
+    ExplicitTop = 116
+    ExplicitWidth = 1207
+    ExplicitHeight = 299
+  end
+  inherited pnlExtra: TPanel
+    Top = 89
+    Height = 326
+    ExplicitTop = 89
+    ExplicitHeight = 326
+    inherited lvwExtra: TListView
+      Height = 324
+    end
+  end
   inherited imgMainButtons: TImageList
     Bitmap = {
-      494C01011F002200A00020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F002200EC0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4237,7 +4786,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgPmSmall: TImageList
     Bitmap = {
-      494C010113001800A00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010113001800EC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4903,5 +5452,292 @@ inherited frmMain: TfrmMain
       E01FE01FE0070000E01FE01FE0070001E01FE01FF00F8001E01FE01FFC3F8003
       F03FF03FFFFFC007F87FF87FFFFFF00F00000000000000000000000000000000
       000000000000}
+  end
+  inherited DBCConnection: TADOConnection
+    ConnectionString = 
+      'Provider=Microsoft.ACE.OLEDB.12.0;Password="";Data Source=D:\pri' +
+      've\werk\ihh\ledenbank\bin\ledenbank.accdb;Persist Security Info=' +
+      'True;Jet OLEDB:Database Password=ihhmuhasebe'
+  end
+  inherited MainMenu1: TMainMenu
+    Left = 416
+    inherited Bestand1: TMenuItem
+      Caption = 'Program'
+      inherited btnClose: TMenuItem
+        Caption = 'Kapat'
+      end
+      inherited btnRestart: TMenuItem
+        Caption = 'Yeniden A'#231
+      end
+    end
+    object Lists1: TMenuItem [1]
+      Caption = 'Listeler'
+      object BetalingTypes1: TMenuItem
+        Caption = 'Aidat Takipler'
+        OnClick = BetalingTypes1Click
+      end
+      object Doelen1: TMenuItem
+        Caption = 'Ama'#231'lar'
+        OnClick = Doelen1Click
+      end
+      object Categorieen1: TMenuItem
+        Caption = 'Kategoriler'
+      end
+      object Banen1: TMenuItem
+        Caption = 'Meslekler'
+        OnClick = Banen1Click
+      end
+      object Landen1: TMenuItem
+        Caption = #220'lkeler'
+        OnClick = Landen1Click
+      end
+    end
+    inherited Extra1: TMenuItem
+      object Keywords1: TMenuItem [0]
+        Caption = 'Anahtar kelimeler'
+        OnClick = Keywords1Click
+      end
+      inherited Instellingen1: TMenuItem
+        Caption = 'Ayarlar'
+      end
+    end
+    inherited Help1: TMenuItem
+      Caption = 'Yardim'
+      inherited btnAbout: TMenuItem
+        Caption = 'Hakkinda'
+      end
+    end
+  end
+  inherited pmpSysTray: TPopupMenu
+    Left = 352
+  end
+  inherited pmpNewMenu: TPopupMenu
+    Left = 272
+  end
+  object ATable: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Leden'
+    Left = 248
+    Top = 216
+    object ATableId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object ATableLidnr: TWideStringField
+      FieldName = 'Lidnr'
+      Size = 255
+    end
+    object ATableNaam: TWideStringField
+      FieldName = 'Naam'
+      Size = 255
+    end
+    object ATableInschrijfdatum: TDateTimeField
+      FieldName = 'Inschrijfdatum'
+    end
+    object ATableLidDag: TWideStringField
+      FieldName = 'LidDag'
+      Size = 255
+    end
+    object ATableLidMaand: TWideStringField
+      FieldName = 'LidMaand'
+      Size = 255
+    end
+    object ATableLidJaar: TWideStringField
+      FieldName = 'LidJaar'
+      Size = 255
+    end
+    object ATableStraat: TWideStringField
+      FieldName = 'Straat'
+      Size = 255
+    end
+    object ATablePostcode: TWideStringField
+      FieldName = 'Postcode'
+      Size = 255
+    end
+    object ATablePlaats: TWideStringField
+      FieldName = 'Plaats'
+      Size = 255
+    end
+    object ATableBanknr: TWideStringField
+      FieldName = 'Banknr'
+      Size = 255
+    end
+    object ATableBedrag: TBCDField
+      FieldName = 'Bedrag'
+      Precision = 19
+    end
+    object ATableBaan: TWideStringField
+      FieldName = 'Baan'
+      Size = 255
+    end
+    object ATableTelefoonnr: TWideStringField
+      FieldName = 'Telefoonnr'
+      Size = 255
+    end
+    object ATableEmail: TWideStringField
+      FieldName = 'Email'
+      Size = 255
+    end
+    object ATableDoel: TWideStringField
+      FieldName = 'Doel'
+      Size = 255
+    end
+    object ATableLand: TWideStringField
+      FieldName = 'Land'
+      Size = 255
+    end
+    object ATableYFONaam: TWideStringField
+      FieldName = 'YFONaam'
+      Size = 255
+    end
+    object ATableBetaling: TWideStringField
+      FieldName = 'Betaling'
+      Size = 255
+    end
+    object ATableCategorie: TWideStringField
+      FieldName = 'Categorie'
+      Size = 255
+    end
+    object ATableProject: TWideStringField
+      FieldName = 'Project'
+      Size = 255
+    end
+    object ATableOmschrijving: TWideStringField
+      FieldName = 'Omschrijving'
+      Size = 255
+    end
+    object ATableSpaarpotNr: TWideStringField
+      FieldName = 'SpaarpotNr'
+      Size = 255
+    end
+    object ATableAlgemeen: TWideStringField
+      FieldName = 'Algemeen'
+      Size = 255
+    end
+    object ATableVrijwilliger: TWideStringField
+      FieldName = 'Vrijwilliger'
+      Size = 255
+    end
+    object ATableSpaarpot: TWideStringField
+      FieldName = 'Spaarpot'
+      Size = 255
+    end
+    object ATableDonatie: TWideStringField
+      FieldName = 'Donatie'
+      Size = 255
+    end
+    object ATableArm: TWideStringField
+      FieldName = 'Arm'
+      Size = 255
+    end
+    object ATableWees: TWideStringField
+      FieldName = 'Wees'
+      Size = 255
+    end
+    object ATableAangemaaktDoor: TWideStringField
+      FieldName = 'AangemaaktDoor'
+      Size = 255
+    end
+    object ATableAangemaaktOp: TDateTimeField
+      FieldName = 'AangemaaktOp'
+    end
+  end
+  object DBTLanden: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Landen'
+    Left = 352
+    Top = 216
+    object DBTLandenId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTLandenNaam: TWideStringField
+      FieldName = 'Naam'
+      Size = 255
+    end
+  end
+  object DBTBetalingen: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Betalingen'
+    Left = 424
+    Top = 216
+    object DBTBetalingenId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTBetalingenType: TWideStringField
+      FieldName = 'Type'
+      Size = 255
+    end
+  end
+  object DBTBanen: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Banen'
+    Left = 496
+    Top = 216
+    object DBTBanenId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTBanenNaam: TWideStringField
+      FieldName = 'Naam'
+      Size = 255
+    end
+  end
+  object DBTCategorien: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Categorieen'
+    Left = 568
+    Top = 216
+    object DBTCategorienId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTCategorienCategorie: TWideStringField
+      FieldName = 'Categorie'
+      Size = 255
+    end
+  end
+  object DBTDoelen: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Doelen'
+    Left = 720
+    Top = 216
+    object DBTDoelenId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTDoelenNaam: TWideStringField
+      FieldName = 'Naam'
+      Size = 255
+    end
+  end
+  object DBTProjecten: TADOTable
+    Connection = DBCConnection
+    CursorLocation = clUseServer
+    IndexName = 'PrimaryKey'
+    TableName = 'Projecten'
+    Left = 648
+    Top = 216
+    object DBTProjectenId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object DBTProjectenNaam: TWideStringField
+      FieldName = 'Naam'
+      Size = 255
+    end
   end
 end

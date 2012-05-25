@@ -8,11 +8,9 @@ inherited frmIAlgemeen: TfrmIAlgemeen
   inherited Panel3: TPanel
     Top = 352
     ExplicitTop = 352
-    ExplicitWidth = 399
   end
   inherited pnlLabels: TPanel
     Height = 352
-    ExplicitWidth = 166
     ExplicitHeight = 352
     object Label1: TLabel
       Left = 16
@@ -73,7 +71,6 @@ inherited frmIAlgemeen: TfrmIAlgemeen
   end
   inherited pnlFields: TPanel
     Height = 352
-    ExplicitLeft = 166
     ExplicitHeight = 352
     object edtLidNr: TEdit
       Left = 6
