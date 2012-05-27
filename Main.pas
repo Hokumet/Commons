@@ -154,7 +154,8 @@ var
 implementation
 
 uses ComObj, SettingImp, AlgemeenImpl, VrijwilligerImpl, SpaarpotImpl,
-      DonatieImpl, BroederImpl, EditLand, EditBetaling;
+      DonatieImpl, BroederImpl, EditLand, EditBetaling, EditDoel, EditProject,
+  EditBaan;
 
 Const
   wdSendToNewDocument = 0;
@@ -270,11 +271,17 @@ begin
   else if objectType = Wees then
     frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, objectType)
   else if objectType = 'Land' then
-    frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), CurrentTable, objectType)
+    frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
   else if objectType = 'Betaling' then
-    frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), CurrentTable, objectType);
-
-  ShowEditForm(frmHEdit);
+    frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+  else if objectType = 'Doel' then
+    frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+  else if objectType = 'Baan' then
+    frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+  else if objectType = 'Project' then
+    frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
+  inherited;
+ // ShowEditForm(frmHEdit);
 end;
 
 procedure TfrmMain.btnPrintenClick(Sender: TObject);

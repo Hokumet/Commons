@@ -83,6 +83,7 @@ begin
   else if Id = -1 then begin
   end
   else begin
+    CurrTable.Locate('ID', ID, []);
     loadFields();
     loadDetailsTables();
     loadDetails();
@@ -304,8 +305,11 @@ begin
   for I := 0 to pnlFields.ControlCount - 1 do begin
     loadField(pnlFields.Controls[I]);
   end;
-  LblAangemaakDoor.Caption := 'Aangemaakt door: ' + CurrTable.FieldByName('AangemaaktDoor').AsString ;
-  lblAangemaaktOp.Caption := 'Aangemaakt op: ' + CurrTable.FieldByName('AangemaaktOp').AsString;
+
+  if not(CurrTable.FindField('AangemaaktDoor') = nil) then begin
+    LblAangemaakDoor.Caption := 'Aangemaakt door: ' + CurrTable.FieldByName('AangemaaktDoor').AsString ;
+    lblAangemaaktOp.Caption := 'Aangemaakt op: ' + CurrTable.FieldByName('AangemaaktOp').AsString;
+  end;
 end;
 
 

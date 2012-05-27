@@ -22,7 +22,8 @@ uses
   DonatieImpl in 'interfaces\impl\DonatieImpl.pas' {frmDonatieImpl},
   SpaarpotImpl in 'interfaces\impl\SpaarpotImpl.pas' {frmSpaarpotImpl},
   VrijwilligerImpl in 'interfaces\impl\VrijwilligerImpl.pas' {frmVrijwilligerImpl},
-  SettingImp in 'impl\SettingImp.pas' {frmSettingImp};
+  SettingImp in 'impl\SettingImp.pas' {frmSettingImp},
+  EditBaan in 'lists\EditBaan.pas' {frmEditBaan};
 
 {$R *.res}
 
@@ -30,5 +31,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmEditBaan, frmEditBaan);
   Application.Run;
 end.
