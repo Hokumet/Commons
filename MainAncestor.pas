@@ -101,6 +101,7 @@ type
     procedure SetFilterFalse;
     procedure LoadFiltered(SQL: String); virtual;
     procedure Refresh; virtual;
+    procedure RefreshExtraData(); virtual;
     procedure Zoeken; virtual;
     procedure ButtonClicked; virtual;
     procedure CloneSelected; virtual;
@@ -597,6 +598,11 @@ begin
   SendMessage(lvwItems.Handle, LVM_SETBKIMAGE, 0, Integer(@BKimg));
 end;
 
+procedure TfrmMainAncestor.RefreshExtraData;
+begin
+  ///inherited
+end;
+
 procedure TfrmMainAncestor.ReloadDatabase;
 begin
   CloseDatase;
@@ -661,8 +667,12 @@ end;
 procedure TfrmMainAncestor.btnEditClick(Sender: TObject);
 begin
   try
-    if frmHEdit.ShowModal = mrOk then
-      Refresh;
+    if frmHEdit.ShowModal = mrOk then begin
+      if lvwItems.Focused then
+        Refresh
+      else
+        RefreshExtraData
+    end;
   finally
     frmHEdit.Free;
   end;
@@ -777,11 +787,11 @@ var
 begin
   Screen.Cursor := crHourGlass;
   try
-    Title := 'Gekopieerde '+objectType+' gegevens';
+    Title := 'Gekopieerde '+lvwItems.HelpKeyword+' gegevens';
     { create an instance of excel }
     objExcel := CreateOleObject('Excel.Application');
     objExcel.Visible := True;
-    objExcel.Caption := 'Kopie ' + objectType;
+    objExcel.Caption := 'Kopie ' + lvwItems.HelpKeyword;
     { add the sheet }
     objExcel.Workbooks.Add;
     objExcel.Workbooks[1].Sheets.Add;

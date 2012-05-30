@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, MainAncestor, Vcl.Menus, Data.Win.ADODB,
   Data.DB, Vcl.ImgList, Vcl.ComCtrls, MyListView, Vcl.ToolWin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.ShellAnimations, HolderEdits, HEdit,Vcl.Buttons;
+  Vcl.ExtCtrls, Vcl.ShellAnimations, HolderEdits, HEdit,Vcl.Buttons, Vcl.Ribbon,
+  Vcl.RibbonLunaStyleActnCtrls;
 
 // Replace Flags
 type
@@ -115,6 +116,7 @@ type
     procedure BetalingTypes1Click(Sender: TObject);
     procedure Banen1Click(Sender: TObject);
     procedure Doelen1Click(Sender: TObject);
+    procedure lvwItemsEnter(Sender: TObject);
   private
     procedure FindUpdateField(WordApp: OLEVariant; SearchString: String;
       ReplaceString: String; Flags: TWordReplaceFlags);
@@ -141,7 +143,7 @@ type
   protected
     procedure Refresh; override;
     procedure RefreshData(refreshAll: boolean);
-    procedure RefreshExtraData();
+    procedure RefreshExtraData(); override;
     procedure LoadFiltered(SQl: String); override;
     function GetFilterFromPanel(panel: TPanel):String;
   public
@@ -170,32 +172,32 @@ Const
 
 procedure TfrmMain.Banen1Click(Sender: TObject);
 begin
-  objectType := 'Baan';
+  lvwExtra.HelpKeyword := 'Baan';
   RefreshExtraData();
 end;
 
 procedure TfrmMain.BetalingTypes1Click(Sender: TObject);
 begin
-  objectType := 'Betaling';
+  lvwExtra.HelpKeyword := 'Betaling';
   RefreshExtraData();
 end;
 
 procedure TfrmMain.Doelen1Click(Sender: TObject);
 begin
-  objectType := 'Doel';
+  lvwExtra.HelpKeyword := 'Doel';
   RefreshExtraData();
 end;
 
 
 procedure TfrmMain.Landen1Click(Sender: TObject);
 begin
-  objectType := 'Land';
+  lvwExtra.HelpKeyword := 'Land';
   RefreshExtraData();
 end;
 
 procedure TfrmMain.btnArmBroederClick(Sender: TObject);
 begin
-  objectType := btnArmBroeder.HelpKeyword;
+  lvwItems.HelpKeyword := btnArmBroeder.HelpKeyword;
   RefreshData(true);
 //  objectType := btnArmBroeder.HelpKeyword;
 //  frmEditBroederImp := TfrmEditBroederImp.Create(Self, 1, ATable);
@@ -209,7 +211,7 @@ end;
 
 procedure TfrmMain.btnBeginClick(Sender: TObject);
 begin
-    objectType := btnBegin.HelpKeyword;
+    lvwItems.HelpKeyword := btnBegin.HelpKeyword;
     RefreshData(true);
     //inherited;
 
@@ -243,7 +245,7 @@ end;
 
 procedure TfrmMain.btnDonatieClick(Sender: TObject);
 begin
-  objectType := btnDonatie.HelpKeyword;
+  lvwItems.HelpKeyword := btnDonatie.HelpKeyword;
   RefreshData(true);
 
 //  inherited;
@@ -258,28 +260,32 @@ end;
 
 procedure TfrmMain.btnEditClick(Sender: TObject);
 begin
-  if objectType = Algemeen then
-    frmHEdit := TfrmAlgemeenImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
-  else if objectType = Vrijwilliger then
-    frmHEdit := TfrmVrijwilligerImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
-  else if objectType = Spaarpot then
-    frmHEdit := TfrmSpaarpotImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
-  else if objectType = Donatie then
-    frmHEdit := TfrmDonatieImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
-  else if objectType = Arm then
-    frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, objectType)
-  else if objectType = Wees then
-    frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, objectType)
-  else if objectType = 'Land' then
-    frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-  else if objectType = 'Betaling' then
-    frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-  else if objectType = 'Doel' then
-    frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-  else if objectType = 'Baan' then
-    frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-  else if objectType = 'Project' then
-    frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
+  if lvwItems.Focused then begin
+    if lvwItems.HelpKeyword = Algemeen then
+      frmHEdit := TfrmAlgemeenImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Vrijwilliger then
+      frmHEdit := TfrmVrijwilligerImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Spaarpot then
+      frmHEdit := TfrmSpaarpotImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Donatie then
+      frmHEdit := TfrmDonatieImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Arm then
+      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+    else if lvwItems.HelpKeyword = Wees then
+      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+  end
+  else begin
+    if lvwExtra.HelpKeyword = 'Land' then
+      frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Betaling' then
+      frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Doel' then
+      frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Baan' then
+      frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Project' then
+      frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
+  end;
   inherited;
  // ShowEditForm(frmHEdit);
 end;
@@ -404,7 +410,7 @@ end;
 
 procedure TfrmMain.btnSpaarpotClick(Sender: TObject);
 begin
-  objectType := btnSpaarpot.HelpKeyword;
+  lvwItems.HelpKeyword := btnSpaarpot.HelpKeyword;
   RefreshData(true);
 //  objectType := btnSpaarpot.HelpKeyword;
 //
@@ -419,7 +425,7 @@ end;
 
 procedure TfrmMain.btnVrijwilligerClick(Sender: TObject);
 begin
-  objectType := btnVrijwilliger.HelpKeyword;
+  lvwItems.HelpKeyword := btnVrijwilliger.HelpKeyword;
   RefreshData(true);
 
 //  objectType := btnVrijwilliger.HelpKeyword;
@@ -436,7 +442,7 @@ end;
 
 procedure TfrmMain.btnWeesBroederClick(Sender: TObject);
 begin
-  objectType := btnWeesBroeder.HelpKeyword;
+  lvwItems.HelpKeyword := btnWeesBroeder.HelpKeyword;
   RefreshData(true);
 //  objectType := btnWeesBroeder.HelpKeyword;
 //  frmEditBroederImp := TfrmEditBroederImp.Create(Self, 1, ATable);
@@ -677,6 +683,11 @@ begin
   ReloadData(not(refreshAll));
 end;
 
+procedure TfrmMain.lvwItemsEnter(Sender: TObject);
+begin
+  //CurrentTable := ATable;
+end;
+
 procedure TfrmMain.Refresh;
 begin
   RefreshData(false);
@@ -687,19 +698,19 @@ begin
   pnlExtra.Visible := False;
 
   CurrentTable := ATable;
-  if objectType = Algemeen  then
+  if lvwItems.HelpKeyword = Algemeen  then
     LoadAlgemeen(refreshAll)
-  else if objectType = Donatie  then
+  else if lvwItems.HelpKeyword = Donatie  then
     LoadDonatie(refreshAll)
-  else if objectType = Wees  then
+  else if lvwItems.HelpKeyword = Wees  then
     LoadWees(refreshAll)
-  else if objectType = Arm  then
+  else if lvwItems.HelpKeyword = Arm  then
     LoadArm(refreshAll)
-  else if objectType = Vrijwilliger  then
+  else if lvwItems.HelpKeyword = Vrijwilliger  then
     LoadVrijwilliger(refreshAll)
-  else if objectType = Spaarpot  then
+  else if lvwItems.HelpKeyword = Spaarpot  then
     LoadSpaarpot(refreshAll)
-  else if objectType = Beurs  then
+  else if lvwItems.HelpKeyword = Beurs  then
     LoadBeurs(refreshAll)
 end;
 
@@ -710,19 +721,19 @@ begin
   FieldCaptionAndFieldName.Clear;
     lvwExtra.Columns.BeginUpdate;
 
-  if objectType = 'Baan'  then begin
+  if lvwExtra.HelpKeyword = 'Baan'  then begin
     ExtraTable := DBTBanen;
     addColumn('Meslek ismi','Naam', 150, lvwExtra);
   end
-  else if objectType = 'Land'  then  begin
+  else if lvwExtra.HelpKeyword = 'Land'  then  begin
     ExtraTable := DBTLanden;
     addColumn('Ülke ismi','Naam', 150, lvwExtra);
   end
-  else if objectType = 'Betaling'  then begin
+  else if lvwExtra.HelpKeyword = 'Betaling'  then begin
     ExtraTable := DBTBetalingen;
     addColumn('Aidat takip','Type', 150, lvwExtra);
   end
-  else if objectType = 'Doel'  then begin
+  else if lvwExtra.HelpKeyword = 'Doel'  then begin
     ExtraTable := DBTDoelen;
     addColumn('Amaç','Naam', 150, lvwExtra);
   end;
@@ -740,7 +751,7 @@ var sFilter:String;
 begin
   if filter then
     sFilter := GetFilterFromPanel(nil);
-  LoadFiltered(objectType + '=' + QuotedStr('true') + sFilter);
+  LoadFiltered(lvwItems.HelpKeyword + '=' + QuotedStr('true') + sFilter);
 
   lvwItems.Clear;
   CurrentTable.Last;

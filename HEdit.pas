@@ -109,10 +109,6 @@ end;
 
 procedure TfrmHEdit.btnSaveClick(Sender: TObject);
 begin
-  if CurrTable.FieldByName('AangemaaktDoor').AsString = '' then begin
-    CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
-    CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
-  end;
   saveFields();
 end;
 
@@ -389,9 +385,11 @@ begin
     saveField(pnlFields.Controls[I]);
   end;
 
-  if CurrTable.FieldByName('AangemaaktDoor').AsString = '' then begin
-    CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
-    CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
+  if not(CurrTable.FindField('AangemaaktDoor') = nil) then begin
+    if CurrTable.FieldByName('AangemaaktDoor').AsString = '' then begin
+      CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
+      CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
+    end;
   end;
 
   for I := 0 to TableObjectList.Count -1 do begin
