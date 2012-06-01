@@ -6,9 +6,11 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
   TextHeight = 13
   inherited Panel3: TPanel
     Top = 380
+    ExplicitTop = 380
   end
   inherited pnlLabels: TPanel
     Height = 380
+    ExplicitHeight = 380
     inherited Label11: TLabel
       Top = 216
       ExplicitTop = 216
@@ -31,6 +33,7 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
   end
   inherited pnlFields: TPanel
     Height = 380
+    ExplicitHeight = 380
     inherited edtTelefoon: TEdit
       Top = 208
       ExplicitTop = 208
@@ -57,5 +60,8 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
       TabOrder = 8
       TextHint = 'Categorie'
     end
+  end
+  inherited CurrQuery: TADOQuery
+    Left = 72
   end
 end

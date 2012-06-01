@@ -23,7 +23,10 @@ uses
   SpaarpotImpl in 'interfaces\impl\SpaarpotImpl.pas' {frmSpaarpotImpl},
   VrijwilligerImpl in 'interfaces\impl\VrijwilligerImpl.pas' {frmVrijwilligerImpl},
   SettingImp in 'impl\SettingImp.pas' {frmSettingImp},
-  EditBaan in 'lists\EditBaan.pas' {frmEditBaan};
+  EditBaan in 'lists\EditBaan.pas' {frmEditBaan},
+  Vcl.Themes,
+  Vcl.Styles,
+  WordFields in 'WordFields.pas' {frmKeywords};
 
 {$R *.res}
 
@@ -31,6 +34,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmEditBaan, frmEditBaan);
   Application.Run;
 end.

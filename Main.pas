@@ -157,7 +157,7 @@ implementation
 
 uses ComObj, SettingImp, AlgemeenImpl, VrijwilligerImpl, SpaarpotImpl,
       DonatieImpl, BroederImpl, EditLand, EditBetaling, EditDoel, EditProject,
-  EditBaan;
+  EditBaan, WordFields;
 
 Const
   wdSendToNewDocument = 0;
@@ -212,6 +212,7 @@ end;
 procedure TfrmMain.btnBeginClick(Sender: TObject);
 begin
     lvwItems.HelpKeyword := btnBegin.HelpKeyword;
+    //lvwItems.SetFocus;
     RefreshData(true);
     //inherited;
 
@@ -571,6 +572,12 @@ begin
     + 'Yukaridaki sözcükler Word dosyanizda 4 tane __ __ arasina aliniz. '+ #13
     + 'Örnek ==>   __Naam__ veya __LidNr__ veya __Email__  ',
     mtCustom, [mbOK], 0 );
+    frmKeywords := TfrmKeywords.Create(Self);
+    try
+      frmKeywords.ShowModal();
+    finally
+      frmKeywords.Free;
+    end;
 end;
 
 
@@ -718,7 +725,7 @@ procedure TfrmMain.RefreshExtraData();
 begin
   pnlExtra.Visible := true;
   lvwExtra.Columns.Clear;
-  FieldCaptionAndFieldName.Clear;
+  ExtraFieldCaptionAndFieldName.Clear;
     lvwExtra.Columns.BeginUpdate;
 
   if lvwExtra.HelpKeyword = 'Baan'  then begin
@@ -789,12 +796,12 @@ begin
     for X := 0 to lvwExtra.Columns.Count -1 do begin
       column := lvwExtra.Columns.Items[X];
       if X = 0 then
-        LI.Caption := ExtraTable.FieldByName(FieldCaptionAndFieldName.Values[column.DisplayName]).AsString
+        LI.Caption := ExtraTable.FieldByName(ExtraFieldCaptionAndFieldName.Values[column.DisplayName]).AsString
       else begin
         if FieldCaptionAndFieldType.Values[column.DisplayName] = 'curr' then
-          LI.SubItems.Add('€ '+FormatFloat('0.00',ExtraTable.FieldByName(FieldCaptionAndFieldName.Values[column.DisplayName]).AsFloat))
+          LI.SubItems.Add('€ '+FormatFloat('0.00',ExtraTable.FieldByName(ExtraFieldCaptionAndFieldName.Values[column.DisplayName]).AsFloat))
         else
-          LI.SubItems.Add(ExtraTable.FieldByName(FieldCaptionAndFieldName.Values[column.DisplayName]).AsString);
+          LI.SubItems.Add(ExtraTable.FieldByName(ExtraFieldCaptionAndFieldName.Values[column.DisplayName]).AsString);
       end;
     end;
     LI.Data := Pointer(ExtraTable.FieldByName('ID').asInteger);

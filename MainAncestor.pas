@@ -81,10 +81,11 @@ type
     procedure TrayMessage(var Msg: TMessage); message WM_ICONTRAY;
     procedure Initialize(var Message: TMessage); message WM_USER;
     procedure LoadDatabase;
-
   protected
     FieldCaptionAndFieldName: TStringList;
     FieldCaptionAndFieldType: TStringList;
+    ExtraFieldCaptionAndFieldName: TStringList;
+    ExtraFieldCaptionAndFieldType: TStringList;
     DatabaseLocation: String;
     DatabaseName: String;
     objectType: String;
@@ -182,6 +183,9 @@ begin
 
   FieldCaptionAndFieldName := TStringList.Create;
   FieldCaptionAndFieldType := TStringList.Create;
+  ExtraFieldCaptionAndFieldName := TStringList.Create;
+  ExtraFieldCaptionAndFieldType := TStringList.Create;
+
   ReloadDatabase;
 end;
 
@@ -462,15 +466,25 @@ procedure TfrmMainAncestor.addColumn(CaptionName, FieldName, FieldType: string; 
 var
   column: TListColumn;
 begin
-  if lvw = nil then
-    column := lvwItems.Columns.Add
-  else
+  if lvw = nil then begin
+    column := lvwItems.Columns.Add;
+    FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
+    FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
+  end
+  else  begin
     column := lvw.Columns.Add;
+    if lvw.Name = 'lvwItems' then begin
+      FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
+      FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
+    end
+    else begin
+      ExtraFieldCaptionAndFieldName.Values[CaptionName] := FieldName;
+      ExtraFieldCaptionAndFieldType.Values[CaptionName] := FieldType;
+   end;
+  end;
   column.Caption := CaptionName;
   column.Width := Size;
   column.alignment := alignment;
-  FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
-  FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
 end;
 
 
@@ -536,6 +550,8 @@ begin
   DBCConnection.Close;
   FieldCaptionAndFieldName.Free;
   FieldCaptionAndFieldType.Free;
+  ExtraFieldCaptionAndFieldName.Free;
+  ExtraFieldCaptionAndFieldType.Free;
 end;
 
 procedure TfrmMainAncestor.Initialize(var Message: TMessage);
