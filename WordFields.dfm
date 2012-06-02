@@ -21,8 +21,6 @@ object frmKeywords: TfrmKeywords
     BorderWidth = 5
     ParentColor = True
     TabOrder = 0
-    ExplicitWidth = 569
-    ExplicitHeight = 266
     object pageControl: TPageControl
       Left = 5
       Top = 5
@@ -31,12 +29,8 @@ object frmKeywords: TfrmKeywords
       ActivePage = tshAlg
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 559
-      ExplicitHeight = 256
       object tshAlg: TTabSheet
         Caption = 'Genel Adres'
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label1: TLabel
           Left = 3
           Top = 16
@@ -67,8 +61,6 @@ object frmKeywords: TfrmKeywords
       end
       object tshDon: TTabSheet
         Caption = 'Aylik Bagis'
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label2: TLabel
           Left = 3
           Top = 16
@@ -81,25 +73,37 @@ object frmKeywords: TfrmKeywords
         object Memo1: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
-            'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
-            'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
+            'Sehir                       = __Plaats___'
+            'Banka No                = __Banknr__'
+            'Miktar                     = __Bedrag__'
+            'Telefon                   = __Telefoonnr__')
           TabOrder = 0
+        end
+        object Memo7: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            'E-mail                      = __Email__'
+            'Ama'#231'                       = __Doel__'
+            'Aidat Takip             = __Betaling__'
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 1
         end
       end
       object tshWees: TTabSheet
         Caption = 'Yetim Kardes Aile'
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label3: TLabel
           Left = 3
           Top = 16
@@ -130,8 +134,6 @@ object frmKeywords: TfrmKeywords
       object tshArm: TTabSheet
         Caption = 'Fair Kardes Aile'
         ImageIndex = 3
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label4: TLabel
           Left = 3
           Top = 16
@@ -162,8 +164,6 @@ object frmKeywords: TfrmKeywords
       object tshVrijw: TTabSheet
         Caption = 'G'#246'n'#252'll'#252
         ImageIndex = 4
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label5: TLabel
           Left = 3
           Top = 16
@@ -176,26 +176,35 @@ object frmKeywords: TfrmKeywords
         object Memo4: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
             'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
+            'Meslek                    = __Baan__'
             'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
+            'E-mail                      = __Email__')
           TabOrder = 0
+        end
+        object Memo8: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 1
         end
       end
       object tshSpaa: TTabSheet
         Caption = 'Kumbara'
         ImageIndex = 5
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label6: TLabel
           Left = 3
           Top = 16
@@ -208,26 +217,38 @@ object frmKeywords: TfrmKeywords
         object Memo5: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
-            'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
+            'Sehir                       = __Plaats___'
+            'Kumbara No            = __Spaarpotnr__'
             'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
+            'E-mail                      = __Email__')
           TabOrder = 0
+        end
+        object Memo9: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            #220'lke                        = __Land__'
+            #214'grenci Adi            = __YFONaam_'
+            'Aidat Takip             = __Betaling__'
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 1
         end
       end
       object tshBeurs: TTabSheet
         Caption = 'Burs'
         ImageIndex = 6
-        ExplicitWidth = 551
-        ExplicitHeight = 228
         object Label7: TLabel
           Left = 3
           Top = 16
@@ -266,8 +287,6 @@ object frmKeywords: TfrmKeywords
     BevelOuter = bvNone
     ParentColor = True
     TabOrder = 1
-    ExplicitTop = 266
-    ExplicitWidth = 569
     object OKBtn: TButton
       Left = 321
       Top = 2

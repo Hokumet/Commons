@@ -117,6 +117,7 @@ type
     procedure Banen1Click(Sender: TObject);
     procedure Doelen1Click(Sender: TObject);
     procedure lvwItemsEnter(Sender: TObject);
+    procedure btnNewClick(Sender: TObject);
   private
     procedure FindUpdateField(WordApp: OLEVariant; SearchString: String;
       ReplaceString: String; Flags: TWordReplaceFlags);
@@ -289,6 +290,38 @@ begin
   end;
   inherited;
  // ShowEditForm(frmHEdit);
+end;
+
+procedure TfrmMain.btnNewClick(Sender: TObject);
+var LastNr: String;
+begin
+  if lvwItems.Focused then begin
+    LastNr := GetLastNr('LidNr', CurrentTable);
+    if lvwItems.HelpKeyword = Algemeen then
+      frmHEdit := TfrmAlgemeenImpl.Create(Self, 0, CurrentTable)
+    else if lvwItems.HelpKeyword = Vrijwilliger then
+      frmHEdit := TfrmVrijwilligerImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Spaarpot then
+      frmHEdit := TfrmSpaarpotImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Donatie then
+      frmHEdit := TfrmDonatieImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+    else if lvwItems.HelpKeyword = Arm then
+      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+    else if lvwItems.HelpKeyword = Wees then
+      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+  end
+  else begin
+    if lvwExtra.HelpKeyword = 'Land' then
+      frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Betaling' then
+      frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Doel' then
+      frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Baan' then
+      frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Project' then
+      frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
+  end;
 end;
 
 procedure TfrmMain.btnPrintenClick(Sender: TObject);

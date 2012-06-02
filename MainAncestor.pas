@@ -126,7 +126,7 @@ type
     function GetEdtFieldFilter(FieldName: String; edtField: TEdit): String;
     function GetCurrencyFieldFilter(FieldName: String; edtField: THCurrencyEdit): String;
     function GetComboFieldFilter(FieldName: String; edtField: TCombobox): String;
-
+    function GetLastNr(SortFieldName: String; STable:TADOTable): String;
   public
     Inifile: TIniFile;
     userType: Integer;
@@ -293,6 +293,15 @@ begin
     Result := ' AND ' + FieldName + '=' + edtField.Text
   else
     Result := '';
+end;
+
+function TfrmMainAncestor.GetLastNr(SortFieldName: String;
+  STable: TADOTable): String;
+begin
+  STable.Filtered := False;
+  STable.Sort := SortFieldName;
+  STable.Last;
+  Result := STable.FieldByName(SortFieldName).AsString;
 end;
 
 function TfrmMainAncestor.GetComboFieldFilter(FieldName: String;
