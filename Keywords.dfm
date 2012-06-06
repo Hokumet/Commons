@@ -114,21 +114,36 @@ object frmKeywords: TfrmKeywords
             'ler yerine asil veriler ge'#231'ecektir '#39
         end
         object Memo2: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            'E-mail                      = __Email__'
+            #220'lke                         = __Land__'
+            'Yetimin Adi              = __YFONaam__'
+            'Aidat Takip              = __Betaling__'
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 0
+        end
+        object Memo10: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
-            'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
-            'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
-          TabOrder = 0
+            'Sehir                       = __Plaats___'
+            'Banka No                = __Banknr__'
+            'Miktar                     = __Bedrag__'
+            'Telefon                   = __Telefoonnr__')
+          TabOrder = 1
         end
       end
       object tshArm: TTabSheet
@@ -143,22 +158,37 @@ object frmKeywords: TfrmKeywords
             'Word programinda kullanabileceginiz anahtar s'#246'zc'#252'kler: Bu s'#246'zc'#252'k' +
             'ler yerine asil veriler ge'#231'ecektir '#39
         end
-        object Memo3: TMemo
+        object Memo11: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
-            'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
-            'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
+            'Sehir                       = __Plaats___'
+            'Banka No                = __Banknr__'
+            'Miktar                     = __Bedrag__'
+            'Telefon                   = __Telefoonnr__')
           TabOrder = 0
+        end
+        object Memo3: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            'E-mail                      = __Email__'
+            #220'lke                         = __Land__'
+            'Fakirin Adi               = __YFONaam__'
+            'Aidat Takip              = __Betaling__'
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 1
         end
       end
       object tshVrijw: TTabSheet

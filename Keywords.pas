@@ -1,4 +1,4 @@
-unit WordFields;
+unit Keywords;
 
 interface
 
@@ -23,9 +23,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    Memo2: TMemo;
     Label4: TLabel;
-    Memo3: TMemo;
     Label5: TLabel;
     Memo4: TMemo;
     Label6: TLabel;
@@ -36,6 +34,10 @@ type
     Memo9: TMemo;
     Memo1: TMemo;
     Memo7: TMemo;
+    Memo2: TMemo;
+    Memo10: TMemo;
+    Memo11: TMemo;
+    Memo3: TMemo;
   private
     { Private declarations }
   public

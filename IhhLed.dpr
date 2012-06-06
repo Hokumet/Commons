@@ -26,7 +26,7 @@ uses
   EditBaan in 'lists\EditBaan.pas' {frmEditBaan},
   Vcl.Themes,
   Vcl.Styles,
-  WordFields in 'WordFields.pas' {frmKeywords};
+  Keywords in 'Keywords.pas' {frmKeywords};
 
 {$R *.res}
 

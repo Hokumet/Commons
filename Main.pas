@@ -158,7 +158,7 @@ implementation
 
 uses ComObj, SettingImp, AlgemeenImpl, VrijwilligerImpl, SpaarpotImpl,
       DonatieImpl, BroederImpl, EditLand, EditBetaling, EditDoel, EditProject,
-  EditBaan, WordFields;
+  EditBaan, KeyWords;
 
 Const
   wdSendToNewDocument = 0;
