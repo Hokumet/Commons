@@ -293,6 +293,7 @@ object frmKeywords: TfrmKeywords
           Top = 35
           Width = 238
           Height = 134
+          Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
             'Aid Soyadi              = __Naam__'
@@ -304,6 +305,7 @@ object frmKeywords: TfrmKeywords
             'E-mail                      = __Email__'
             'A'#231'iklama                  = __Omschrijving__')
           TabOrder = 0
+          WantTabs = True
         end
       end
     end

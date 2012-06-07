@@ -519,6 +519,28 @@ inherited frmMain: TfrmMain
   end
   inherited StatusBar: TStatusBar
     Width = 1188
+    Panels = <
+      item
+        Text = 'Kullanici:'
+        Width = 100
+      end
+      item
+        Text = 'user:'
+        Width = 100
+      end
+      item
+        Text = '  '
+        Width = 100
+      end
+      item
+        Bevel = pbRaised
+        Text = 'Kullanilan word dok'#252'man:'
+        Width = 150
+      end
+      item
+        Text = 'worddoc'
+        Width = 50
+      end>
     ExplicitWidth = 1188
   end
   inherited lvwItems: TMyListView
@@ -551,7 +573,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgMainButtons: TImageList
     Bitmap = {
-      494C01011F002200000120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F0022000C0120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4784,7 +4806,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgPmSmall: TImageList
     Bitmap = {
-      494C010113001800000110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101130018000C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

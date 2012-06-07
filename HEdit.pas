@@ -278,6 +278,9 @@ end;
 
 procedure TfrmHEdit.loadField(eField: TControl);
 begin
+  if not(eField.Visible) then
+    exit;
+
   if eField is TEdit then  begin
     loadEditField(TEdit(eField));
   end
@@ -391,6 +394,8 @@ begin
       CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
     end;
   end;
+
+  CurrTable.Post;
 
   for I := 0 to TableObjectList.Count -1 do begin
     TADOTable(TableObjectList.Items[I]).UpdateBatch;

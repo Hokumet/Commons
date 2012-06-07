@@ -34,20 +34,32 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
   inherited pnlFields: TPanel
     Height = 380
     ExplicitHeight = 380
-    inherited edtTelefoon: TEdit
+    inherited edtAlgemeen: TEdit [0]
+      Left = 136
+      TabOrder = 9
+      ExplicitLeft = 136
+    end
+    inherited edtLidNr: TEdit [1]
+    end
+    inherited edtNaam: TEdit [2]
+    end
+    inherited edtAdres: TEdit [3]
+    end
+    inherited edtPostcode: TEdit [4]
+    end
+    inherited edtPlaats: TEdit [5]
+    end
+    inherited edtTelefoon: TEdit [6]
       Top = 208
       ExplicitTop = 208
     end
-    inherited edtEmail: TEdit
+    inherited edtEmail: TEdit [7]
       Top = 240
       ExplicitTop = 240
     end
-    inherited edtOmschrijving: TMemo
+    inherited edtOmschrijving: TMemo [8]
       Top = 273
       ExplicitTop = 273
-    end
-    inherited edtAlgemeen: TEdit
-      TabOrder = 9
     end
     object cmbCategorie: TComboBox
       Left = 6

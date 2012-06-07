@@ -127,13 +127,14 @@ type
     function GetCurrencyFieldFilter(FieldName: String; edtField: THCurrencyEdit): String;
     function GetComboFieldFilter(FieldName: String; edtField: TCombobox): String;
     function GetLastNr(SortFieldName: String; STable:TADOTable): String;
+    procedure StartProcs(); virtual;
   public
     Inifile: TIniFile;
     userType: Integer;
     user: String;
     setup: Boolean;
     procedure ReloadDatabase;
-    procedure RefreshBackground();
+    procedure RefreshBackground(); virtual;
     function GetTablePassword: TADOTable;
     function GetTable(tableName: String): TADOTable; virtual;
     function GetReportTable(tableName: String): TADOTable; virtual;
@@ -187,6 +188,7 @@ begin
   ExtraFieldCaptionAndFieldType := TStringList.Create;
 
   ReloadDatabase;
+  StartProcs();
 end;
 
 procedure TfrmMainAncestor.lvwItemsSelectItem(Sender: TObject; Item: TListItem;
@@ -298,10 +300,17 @@ end;
 function TfrmMainAncestor.GetLastNr(SortFieldName: String;
   STable: TADOTable): String;
 begin
-  STable.Filtered := False;
-  STable.Sort := SortFieldName;
-  STable.Last;
-  Result := STable.FieldByName(SortFieldName).AsString;
+
+  DBTQuery.Connection := STable.Connection;
+  DBTQuery.SQL.Clear;
+  DBTQuery.SQL.Add('Select '+ SortFieldName +' from ' + STable.TableName + ' Order by '+ SortFieldName + ' DESC');
+
+  if not DBTQuery.Active then
+    DBTQuery.Open;
+
+  DBTQuery.ExecSQL;
+  DBTQuery.First;
+  Result := DBTQuery.FieldByName(SortFieldName).AsString;
 end;
 
 function TfrmMainAncestor.GetComboFieldFilter(FieldName: String;
@@ -801,6 +810,11 @@ end;
 procedure TfrmMainAncestor.ShowOverzicht;
 begin
   // in de inherited
+end;
+
+procedure TfrmMainAncestor.StartProcs;
+begin
+/// in the inherited
 end;
 
 procedure TfrmMainAncestor.ListDataToExcel;

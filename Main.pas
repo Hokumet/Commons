@@ -147,8 +147,9 @@ type
     procedure RefreshExtraData(); override;
     procedure LoadFiltered(SQl: String); override;
     function GetFilterFromPanel(panel: TPanel):String;
+    procedure StartProcs(); override;
   public
-    { Public declarations }
+    procedure RefreshBackground(); override;
   end;
 
 var
@@ -295,7 +296,19 @@ end;
 procedure TfrmMain.btnNewClick(Sender: TObject);
 var LastNr: String;
 begin
-  if lvwItems.Focused then begin
+  if pnlExtra.Visible then begin
+    if lvwExtra.HelpKeyword = 'Land' then
+      frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Betaling' then
+      frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Doel' then
+      frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Baan' then
+      frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
+    else if lvwExtra.HelpKeyword = 'Project' then
+      frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
+  end
+  else begin
     LastNr := GetLastNr('LidNr', CurrentTable);
     if lvwItems.HelpKeyword = Algemeen then
       frmHEdit := TfrmAlgemeenImpl.Create(Self, 0, CurrentTable)
@@ -309,19 +322,9 @@ begin
       frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
     else if lvwItems.HelpKeyword = Wees then
       frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
-  end
-  else begin
-    if lvwExtra.HelpKeyword = 'Land' then
-      frmHEdit := TfrmEditLand.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-    else if lvwExtra.HelpKeyword = 'Betaling' then
-      frmHEdit := TfrmEditBetaling.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-    else if lvwExtra.HelpKeyword = 'Doel' then
-      frmHEdit := TfrmEditDoel.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-    else if lvwExtra.HelpKeyword = 'Baan' then
-      frmHEdit := TfrmEditBaan.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable)
-    else if lvwExtra.HelpKeyword = 'Project' then
-      frmHEdit := TfrmEditProject.Create(Self, Integer(lvwExtra.Selected.Data), ExtraTable);
   end;
+  ShowEditForm(frmHEdit);
+
 end;
 
 procedure TfrmMain.btnPrintenClick(Sender: TObject);
@@ -733,6 +736,12 @@ begin
   RefreshData(false);
 end;
 
+procedure TfrmMain.RefreshBackground;
+begin
+  inherited;
+  StatusBar.Panels.Items[5].Text := Inifile.ReadString('app','worddoc', '')
+end;
+
 procedure TfrmMain.RefreshData(refreshAll: boolean);
 begin
   pnlExtra.Visible := False;
@@ -959,10 +968,18 @@ procedure TfrmMain.ShowEditForm(frmHEdit: TfrmHEdit);
 begin
   try
     if frmHEdit.ShowModal = mrOk then
-      Refresh;
+      if pnlExtra.Visible then
+        RefreshExtraData
+      else
+        Refresh;
   finally
     frmHEdit.Free;
   end;
+end;
+
+procedure TfrmMain.StartProcs;
+begin
+  StatusBar.Panels.Items[4].Text := Inifile.ReadString('app','worddoc', '')
 end;
 
 procedure TfrmMain.btnZoekenClick(Sender: TObject);
