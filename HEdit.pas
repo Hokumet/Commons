@@ -63,7 +63,7 @@ var
 
 implementation
 
-uses Main;
+uses Main, DateUtils;
 {$R *.dfm}
 { TfrmEditAlgemeen }
 
@@ -245,6 +245,8 @@ var
   value: TDateTime;
 begin
   value := CurrTable.FieldByName(dateField.HelpKeyword).AsDateTime;
+  if DateToStr(value) = '30-12-1899' then
+    value := Date;
   dateField.Date := value;
 end;
 
@@ -352,6 +354,13 @@ var
 begin                     
   field := dateField.HelpKeyword;
   CurrTable.FieldByName(field).AsDateTime := dateField.DateTime;
+
+  if not(CurrTable.FindField('Dag') = nil) then begin
+    CurrTable.FieldByName('Dag').AsInteger := DayOfTheMonth(dateField.Date);
+    CurrTable.FieldByName('Maand').AsInteger :=  MonthOfTheYear(dateField.Date) ;
+    CurrTable.FieldByName('Jaar').AsFloat :=  YearOf(dateField.Date) ;
+  end;
+
 end;
 
 procedure TfrmHEdit.saveEditField(edtField: TEdit);

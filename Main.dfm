@@ -4,6 +4,7 @@ inherited frmMain: TfrmMain
   Caption = 'Bilgi Bankasi'
   ClientWidth = 1188
   ExplicitWidth = 1204
+  ExplicitHeight = 492
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlHeader: TPanel
@@ -573,7 +574,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgMainButtons: TImageList
     Bitmap = {
-      494C01011F0022000C0120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F002200180120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4806,7 +4807,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgPmSmall: TImageList
     Bitmap = {
-      494C0101130018000C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010113001800180110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5476,8 +5477,8 @@ inherited frmMain: TfrmMain
   inherited DBCConnection: TADOConnection
     ConnectionString = 
       'Provider=Microsoft.ACE.OLEDB.12.0;Password="";Data Source=D:\pri' +
-      've\werk\ihh\ledenbank\bin\ledenbank.accdb;Persist Security Info=' +
-      'True;Jet OLEDB:Database Password=ihhmuhasebe'
+      've\ontw\Ihh-Led\Commons\bin\IhhLed.accdb;Persist Security Info=T' +
+      'rue;Jet OLEDB:Database Password=ihhmuhasebe'
   end
   inherited MainMenu1: TMainMenu
     Left = 416
@@ -5556,16 +5557,16 @@ inherited frmMain: TfrmMain
     object ATableInschrijfdatum: TDateTimeField
       FieldName = 'Inschrijfdatum'
     end
-    object ATableLidDag: TWideStringField
-      FieldName = 'LidDag'
+    object ATableDag: TWideStringField
+      FieldName = 'Dag'
       Size = 255
     end
-    object ATableLidMaand: TWideStringField
-      FieldName = 'LidMaand'
+    object ATableMaand: TWideStringField
+      FieldName = 'Maand'
       Size = 255
     end
-    object ATableLidJaar: TWideStringField
-      FieldName = 'LidJaar'
+    object ATableJaar: TWideStringField
+      FieldName = 'Jaar'
       Size = 255
     end
     object ATableStraat: TWideStringField

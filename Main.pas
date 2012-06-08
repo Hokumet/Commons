@@ -72,9 +72,9 @@ type
     ATableLidnr: TWideStringField;
     ATableNaam: TWideStringField;
     ATableInschrijfdatum: TDateTimeField;
-    ATableLidDag: TWideStringField;
-    ATableLidMaand: TWideStringField;
-    ATableLidJaar: TWideStringField;
+    ATableDag: TWideStringField;
+    ATableMaand: TWideStringField;
+    ATableJaar: TWideStringField;
     ATableStraat: TWideStringField;
     ATablePostcode: TWideStringField;
     ATablePlaats: TWideStringField;
@@ -313,15 +313,15 @@ begin
     if lvwItems.HelpKeyword = Algemeen then
       frmHEdit := TfrmAlgemeenImpl.Create(Self, 0, CurrentTable)
     else if lvwItems.HelpKeyword = Vrijwilliger then
-      frmHEdit := TfrmVrijwilligerImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+      frmHEdit := TfrmVrijwilligerImpl.Create(Self, 0, CurrentTable)
     else if lvwItems.HelpKeyword = Spaarpot then
-      frmHEdit := TfrmSpaarpotImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+      frmHEdit := TfrmSpaarpotImpl.Create(Self, 0, CurrentTable)
     else if lvwItems.HelpKeyword = Donatie then
-      frmHEdit := TfrmDonatieImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable)
+      frmHEdit := TfrmDonatieImpl.Create(Self, 0, CurrentTable)
     else if lvwItems.HelpKeyword = Arm then
-      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+      frmHEdit := TfrmBroederImpl.Create(Self, 0, CurrentTable, lvwItems.HelpKeyword)
     else if lvwItems.HelpKeyword = Wees then
-      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+      frmHEdit := TfrmBroederImpl.Create(Self, 0, CurrentTable, lvwItems.HelpKeyword)
   end;
   ShowEditForm(frmHEdit);
 
@@ -868,9 +868,9 @@ end;
 procedure TfrmMain.SetArmColums;
 begin
   addColumn('Sira No','LidNr', 50);
-  addColumn('Gün','LidDag', 34);
-  addColumn('Ay','LidMaand', 27);
-  addColumn('Yil','LidJaar', 40);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
   addColumn('Adres', 'Straat', 100);
   addColumn('Posta kodu', 'Postcode', 75);
@@ -888,9 +888,9 @@ end;
 procedure TfrmMain.SetDonatieColums;
 begin
   addColumn('Sira No','LidNr', 50);
-  addColumn('Gün','LidDag', 34);
-  addColumn('Ay','LidMaand', 27);
-  addColumn('Yil','LidJaar', 40);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
   addColumn('Adres', 'Straat', 100);
   addColumn('Posta kodu', 'Postcode', 75);
@@ -912,9 +912,9 @@ end;
 procedure TfrmMain.SetSpaarpotColums;
 begin
   addColumn('Sira No','LidNr', 50);
-  addColumn('Gün','LidDag', 34);
-  addColumn('Ay','LidMaand', 27);
-  addColumn('Yil','LidJaar', 40);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
   addColumn('Adres', 'Straat', 100);
   addColumn('Posta kodu', 'Postcode', 75);
@@ -931,9 +931,9 @@ end;
 procedure TfrmMain.SetVrijwilligerColums;
 begin
   addColumn('Sira No','LidNr', 50);
-  addColumn('Gün','LidDag', 34);
-  addColumn('Ay','LidMaand', 27);
-  addColumn('Yil','LidJaar', 40);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
   addColumn('Adres', 'Straat', 100);
   addColumn('Posta kodu', 'Postcode', 75);
@@ -947,9 +947,9 @@ end;
 procedure TfrmMain.SetWeesColums;
 begin
   addColumn('Sira No','LidNr', 50);
-  addColumn('Gün','LidDag', 34);
-  addColumn('Ay','LidMaand', 27);
-  addColumn('Yil','LidJaar', 40);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
   addColumn('Adres', 'Straat', 100);
   addColumn('Posta kodu', 'Postcode', 75);
