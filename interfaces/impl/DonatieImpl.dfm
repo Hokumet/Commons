@@ -1,9 +1,17 @@
 inherited frmDonatieImpl: TfrmDonatieImpl
   Caption = 'frmDonatieImpl'
+  ClientHeight = 595
   ExplicitWidth = 415
+  ExplicitHeight = 633
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel3: TPanel
+    Top = 516
+    ExplicitTop = 516
+  end
   inherited pnlLabels: TPanel
+    Height = 516
+    ExplicitHeight = 516
     inherited Label3: TLabel
       Top = 376
       ExplicitTop = 376
@@ -29,22 +37,31 @@ inherited frmDonatieImpl: TfrmDonatieImpl
     end
   end
   inherited pnlFields: TPanel
+    Height = 516
+    ExplicitHeight = 516
     inherited cmbBetaling: TComboBox
       Top = 368
+      TabOrder = 11
       ExplicitTop = 368
     end
     inherited edtTelefoon: TEdit
       Top = 304
-      TabOrder = 13
+      TabOrder = 9
       ExplicitTop = 304
     end
     inherited edtEmail: TEdit
       Top = 336
+      TabOrder = 10
       ExplicitTop = 336
     end
     inherited edtOmschrijving: TMemo
       Top = 400
+      Lines.Strings = ()
+      TabOrder = 12
       ExplicitTop = 400
+    end
+    inherited edtAlgemeen: TEdit
+      TabOrder = 13
     end
     object cmbDoel: TComboBox
       Left = 6
@@ -54,7 +71,7 @@ inherited frmDonatieImpl: TfrmDonatieImpl
       Hint = 'Doelen'
       HelpType = htKeyword
       HelpKeyword = 'Doel'
-      TabOrder = 12
+      TabOrder = 8
       TextHint = 'Naam'
     end
     object edtDonatie: TEdit

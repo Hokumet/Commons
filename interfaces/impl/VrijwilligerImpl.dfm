@@ -1,9 +1,17 @@
 inherited frmVrijwilligerImpl: TfrmVrijwilligerImpl
   Caption = 'frmVrijwilligerImpl'
+  ClientHeight = 499
   ExplicitWidth = 415
+  ExplicitHeight = 537
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel3: TPanel
+    Top = 420
+    ExplicitTop = 420
+  end
   inherited pnlLabels: TPanel
+    Height = 420
+    ExplicitHeight = 420
     inherited Label11: TLabel
       Top = 248
       ExplicitTop = 248
@@ -25,18 +33,25 @@ inherited frmVrijwilligerImpl: TfrmVrijwilligerImpl
     end
   end
   inherited pnlFields: TPanel
+    Height = 420
+    ExplicitHeight = 420
     inherited edtTelefoon: TEdit
       Top = 240
+      TabOrder = 7
       ExplicitTop = 240
     end
     inherited edtEmail: TEdit
       Top = 272
+      TabOrder = 8
       ExplicitTop = 272
     end
     inherited edtOmschrijving: TMemo
       Top = 305
-      TabOrder = 10
+      Lines.Strings = ()
       ExplicitTop = 305
+    end
+    inherited edtAlgemeen: TEdit
+      TabOrder = 10
     end
     object cmbBaan: TComboBox
       Left = 6
@@ -46,7 +61,7 @@ inherited frmVrijwilligerImpl: TfrmVrijwilligerImpl
       Hint = 'Banen'
       HelpType = htKeyword
       HelpKeyword = 'Baan'
-      TabOrder = 9
+      TabOrder = 6
       TextHint = 'Naam'
     end
     object edtVrijwilliger: TEdit

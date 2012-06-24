@@ -30,6 +30,7 @@ type
     { Private declaratioh ns }
   public
     { Public declarations }
+    procedure setLidNr(lidNr: String);
   end;
 
 var
@@ -38,5 +39,12 @@ var
 implementation
 
 {$R *.dfm}
+
+{ TfrmIAlgemeen }
+
+procedure TfrmIAlgemeen.setLidNr(lidNr: String);
+begin
+  edtLidNr.Text := lidNr
+end;
 
 end.

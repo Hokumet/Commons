@@ -97,15 +97,19 @@ type
     ATableDonatie: TWideStringField;
     ATableArm: TWideStringField;
     ATableWees: TWideStringField;
+    ATableBeurs: TWideStringField;
     ATableAangemaaktDoor: TWideStringField;
     ATableAangemaaktOp: TDateTimeField;
+    btnExportToExcel: TMenuItem;
+    Label1: TLabel;
+    Label2: TLabel;
+    SendEmail: TMenuItem;
     procedure btnPrintenClick(Sender: TObject);
     procedure btnBeginClick(Sender: TObject);
     procedure Instellingen1Click(Sender: TObject);
     procedure btnDonatieClick(Sender: TObject);
     procedure btnVrijwilligerClick(Sender: TObject);
     procedure btnSpaarpotClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure lblPlusMinClick(Sender: TObject);
     procedure btnWeesBroederClick(Sender: TObject);
     procedure btnArmBroederClick(Sender: TObject);
@@ -118,6 +122,9 @@ type
     procedure Doelen1Click(Sender: TObject);
     procedure lvwItemsEnter(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
+    procedure btnBeursClick(Sender: TObject);
+    procedure btnExportToExcelClick(Sender: TObject);
+    procedure SendEmailClick(Sender: TObject);
   private
     procedure FindUpdateField(WordApp: OLEVariant; SearchString: String;
       ReplaceString: String; Flags: TWordReplaceFlags);
@@ -146,8 +153,9 @@ type
     procedure RefreshData(refreshAll: boolean);
     procedure RefreshExtraData(); override;
     procedure LoadFiltered(SQl: String); override;
-    function GetFilterFromPanel(panel: TPanel):String;
+    //function GetFilterFromPanel(panel: TPanel):String;
     procedure StartProcs(); override;
+    procedure OpenDatasets(); override;
   public
     procedure RefreshBackground(); override;
   end;
@@ -190,6 +198,11 @@ begin
   RefreshExtraData();
 end;
 
+
+procedure TfrmMain.btnExportToExcelClick(Sender: TObject);
+begin
+    ExportToExcel();
+end;
 
 procedure TfrmMain.Landen1Click(Sender: TObject);
 begin
@@ -246,6 +259,12 @@ begin
 
 end;
 
+procedure TfrmMain.btnBeursClick(Sender: TObject);
+begin
+  lvwItems.HelpKeyword := btnBeurs.HelpKeyword;
+  RefreshData(true);
+end;
+
 procedure TfrmMain.btnDonatieClick(Sender: TObject);
 begin
   lvwItems.HelpKeyword := btnDonatie.HelpKeyword;
@@ -275,6 +294,8 @@ begin
     else if lvwItems.HelpKeyword = Arm then
       frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
     else if lvwItems.HelpKeyword = Wees then
+      frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
+    else if lvwItems.HelpKeyword = Beurs then
       frmHEdit := TfrmBroederImpl.Create(Self, Integer(lvwItems.Selected.Data), CurrentTable, lvwItems.HelpKeyword)
   end
   else begin
@@ -322,6 +343,10 @@ begin
       frmHEdit := TfrmBroederImpl.Create(Self, 0, CurrentTable, lvwItems.HelpKeyword)
     else if lvwItems.HelpKeyword = Wees then
       frmHEdit := TfrmBroederImpl.Create(Self, 0, CurrentTable, lvwItems.HelpKeyword)
+    else if lvwItems.HelpKeyword = Beurs then
+      frmHEdit := TfrmBroederImpl.Create(Self, 0, CurrentTable, lvwItems.HelpKeyword);
+
+    TfrmAlgemeenImpl(frmHEdit).setLidNr(IntToStr(StrToInt(LastNr)+1));
   end;
   ShowEditForm(frmHEdit);
 
@@ -372,13 +397,13 @@ begin
             if Items[I].Selected then begin
               //ATable.Locate('ID', Integer(Items[I].Data), []);
               for Y := 0 to CurrentTable.Fields.Count - 1 do  begin
-                rFieldName := CurrentTable.Fields.Fields[I].FieldName;
+                rFieldName := CurrentTable.Fields.Fields[Y].FieldName;
                 rFieldValue := CurrentTable.FieldByName(rFieldName).AsString;
                 FindUpdateField(WordApp, '__' + rFieldName + '__', rFieldValue, [wrfReplaceAll]);
               end;
-              WordDoc.PrintPreview;
+              WordDoc.PrintOut;
               // WordDoc.PrintOut;
-              ShowMessage('Previewing');
+              //ShowMessage('Previewing');
             end;
           end
           else  begin
@@ -531,63 +556,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.FormCreate(Sender: TObject);
-begin
-  inherited;
-  ATable.Open;
-  DBTLanden.Open;
-  DBTBetalingen.Open;
-  DBTBanen.Open;
-  DBTDoelen.Open;
-  DBTBetalingen.Open;
-  CurrentTable := ATable;
-end;
-
-function TfrmMain.GetFilterFromPanel(panel: TPanel): String;
-var
-  I: Integer;
-  edt: TEdit;
-  curr: THCurrencyEdit;
-  combo: TComboBox;
-  FieldName, FilterString: String;
-  pnl:TPanel;
-begin
-  if panel = nil then
-    pnl := pnlHeader
-  else
-    pnl := panel;
-
-  for I := 0 to pnl.ControlCount - 1 do
-  begin
-    if pnl.Controls[I].Visible then
-    begin
-      if pnl.Controls[I] is TEdit then
-      begin
-        edt := TEdit(pnl.Controls[I]);
-        FieldName := edt.HelpKeyword;
-        FilterString := FilterString +
-          GetEdtFieldFilter(FieldName, edt);
-      end
-      else if pnl.Controls[I] is THCurrencyEdit then
-      begin
-        curr := THCurrencyEdit(pnl.Controls[I]);
-        FieldName := curr.HelpKeyword;
-        FilterString := FilterString + GetCurrencyFieldFilter
-          (FieldName, curr);
-      end
-      else if pnl.Controls[I] is TComboBox then
-      begin
-        combo := TComboBox(pnl.Controls[I]);
-        FieldName := combo.HelpKeyword;
-        FilterString := FilterString + GetComboFieldFilter
-          (FieldName, combo);
-      end;
-    end;
-  end;
-
-
-end;
-
 procedure TfrmMain.Instellingen1Click(Sender: TObject);
 begin
   frmSettingImp := TfrmSettingImp.Create(Self);
@@ -601,13 +569,6 @@ end;
 
 procedure TfrmMain.Keywords1Click(Sender: TObject);
 begin
-    MessageDlg('' + #13 + 'Word programinda kullanabileceginiz anahtar sözcükler:' +
-    #13 + #13 + 'Bu sözcükler yerine asil veriler geçecektir ' + #13
-    + 'Genel Adres: Lidnr, Naam, Straat, Postcode, Plaats, Telefoonnr, Email, Omschrijving '+ #13
-    + 'Aylik Bagis: Lidnr, Naam, Straat, Postcode, Plaats, Telefoonnr, Email, Omschrijving '+ #13+ #13
-    + 'Yukaridaki sözcükler Word dosyanizda 4 tane __ __ arasina aliniz. '+ #13
-    + 'Örnek ==>   __Naam__ veya __LidNr__ veya __Email__  ',
-    mtCustom, [mbOK], 0 );
     frmKeywords := TfrmKeywords.Create(Self);
     try
       frmKeywords.ShowModal();
@@ -648,6 +609,7 @@ begin
   if refreshAll then begin
     lvwItems.Columns.Clear;
 
+    zkYFONaam.TextHint := 'Fakirin Adi';
     lvwItems.Columns.BeginUpdate;
     SetArmColums;
     lvwItems.Columns.EndUpdate;
@@ -680,7 +642,11 @@ procedure TfrmMain.LoadBeurs(refreshAll: boolean);
 begin
   if refreshAll then begin
     lvwItems.Columns.Clear;
+
+    zkYFONaam.TextHint := 'Ögrenci';
+    lvwItems.Columns.BeginUpdate;
     SetBeursColums;
+    lvwItems.Columns.EndUpdate;
   end;
 
   ReloadData(not(refreshAll));
@@ -717,7 +683,7 @@ procedure TfrmMain.LoadWees(refreshAll: boolean);
 begin
   if refreshAll then begin
     lvwItems.Columns.Clear;
-
+    zkYFONaam.TextHint := 'Yetimin Adi';
     lvwItems.Columns.BeginUpdate;
     SetWeesColums;
     lvwItems.Columns.EndUpdate;
@@ -731,6 +697,18 @@ begin
   //CurrentTable := ATable;
 end;
 
+procedure TfrmMain.OpenDatasets;
+begin
+  inherited;
+  ATable.Open;
+  DBTLanden.Open;
+  DBTBetalingen.Open;
+  DBTBanen.Open;
+  DBTDoelen.Open;
+  DBTBetalingen.Open;
+  CurrentTable := ATable;
+end;
+
 procedure TfrmMain.Refresh;
 begin
   RefreshData(false);
@@ -739,7 +717,7 @@ end;
 procedure TfrmMain.RefreshBackground;
 begin
   inherited;
-  StatusBar.Panels.Items[5].Text := Inifile.ReadString('app','worddoc', '')
+  StatusBar.Panels.Items[4].Text := Inifile.ReadString('app','worddoc', '')
 end;
 
 procedure TfrmMain.RefreshData(refreshAll: boolean);
@@ -761,6 +739,11 @@ begin
     LoadSpaarpot(refreshAll)
   else if lvwItems.HelpKeyword = Beurs  then
     LoadBeurs(refreshAll)
+  else begin
+    lvwItems.HelpKeyword := 'Algemeen';
+    btnBegin.Down := true;
+    LoadAlgemeen(true);
+  end;
 end;
 
 procedure TfrmMain.RefreshExtraData();
@@ -852,16 +835,21 @@ begin
 
 end;
 
+procedure TfrmMain.SendEmailClick(Sender: TObject);
+begin
+  SendMail;
+end;
+
 procedure TfrmMain.SetAlgemeenColums;
 begin
   addColumn('Sira No','LidNr', 50);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
   addColumn('Kategori', 'Categorie', 75);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
+  addColumn('Email', 'Email', 120);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
@@ -872,16 +860,16 @@ begin
   addColumn('Ay','Maand', 27);
   addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
-  addColumn('Banka No', 'Banknr', 100);
-  addColumn('Miktar', 'Bedrag', 'curr', 100);
+  addColumn('Banka No', 'Banknr', 80);
+  addColumn('Miktar', 'Bedrag', 'curr', 80);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
+  addColumn('Email', 'Email', 120);
   addColumn('Ülke', 'Land', 100);
   addColumn('Fakirin Adi', 'YFONaam', 100);
-  addColumn('Aidat Takip', 'Betaling', 75);
+  addColumn('Aidat Takip', 'Betaling', 70);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
@@ -892,21 +880,36 @@ begin
   addColumn('Ay','Maand', 27);
   addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
-  addColumn('Banka No', 'Banknr', 100);
-  addColumn('Miktar', 'Bedrag', 'curr', 100);
+  addColumn('Banka No', 'Banknr', 80);
+  addColumn('Miktar', 'Bedrag', 'curr', 80);
   addColumn('Amaç', 'Doel', 100);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
-  addColumn('Aidat Takip', 'Betaling', 75);
+  addColumn('Email', 'Email', 120);
+  addColumn('Aidat Takip', 'Betaling', 70);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
 procedure TfrmMain.SetBeursColums;
 begin
-
+  addColumn('Sira No','LidNr', 50);
+  addColumn('Gün','Dag', 34);
+  addColumn('Ay','Maand', 27);
+  addColumn('Yil','Jaar', 40);
+  addColumn('Adi Soyadi', 'Naam', 100);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
+  addColumn('Sehir', 'Plaats', 75);
+  addColumn('Banka No', 'Banknr', 80);
+  addColumn('Miktar', 'Bedrag', 'curr', 80);
+  addColumn('Telefon No', 'Telefoonnr', 75);
+  addColumn('Email', 'Email', 120);
+  addColumn('Ülke', 'Land', 100);
+  addColumn('Ögrenci Adi', 'YFONaam', 100);
+  addColumn('Aidat Takip', 'Betaling', 70);
+  addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
 procedure TfrmMain.SetSpaarpotColums;
@@ -916,15 +919,15 @@ begin
   addColumn('Ay','Maand', 27);
   addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
   addColumn('Kumbara No', 'SpaarpotNr', 75);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
+  addColumn('Email', 'Email', 120);
   addColumn('Ülke', 'Land', 75);
   addColumn('Ögrenci ', 'YFONaam', 75);
-  addColumn('Aidat Takip', 'Betaling', 75);
+  addColumn('Aidat Takip', 'Betaling', 70);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
@@ -935,12 +938,12 @@ begin
   addColumn('Ay','Maand', 27);
   addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
   addColumn('Meslek', 'Baan', 75);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
+  addColumn('Email', 'Email', 120);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 
@@ -951,16 +954,16 @@ begin
   addColumn('Ay','Maand', 27);
   addColumn('Yil','Jaar', 40);
   addColumn('Adi Soyadi', 'Naam', 100);
-  addColumn('Adres', 'Straat', 100);
-  addColumn('Posta kodu', 'Postcode', 75);
+  addColumn('Adres', 'Straat', 130);
+  addColumn('Posta kodu', 'Postcode', 60);
   addColumn('Sehir', 'Plaats', 75);
-  addColumn('Banka No', 'Banknr', 100);
-  addColumn('Miktar', 'Bedrag', 'curr', 100);
+  addColumn('Banka No', 'Banknr', 80);
+  addColumn('Miktar', 'Bedrag', 'curr', 80);
   addColumn('Telefon No', 'Telefoonnr', 75);
-  addColumn('Email', 'Email', 100);
+  addColumn('Email', 'Email', 120);
   addColumn('Ülke', 'Land', 100);
   addColumn('Yetimin Adi', 'YFONaam', 100);
-  addColumn('Aidat Takip', 'Betaling', 75);
+  addColumn('Aidat Takip', 'Betaling', 70);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
 

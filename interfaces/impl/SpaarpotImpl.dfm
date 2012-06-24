@@ -1,9 +1,17 @@
 inherited frmSpaarpotImpl: TfrmSpaarpotImpl
   Caption = 'frmSpaarpotImpl'
+  ClientHeight = 581
   ExplicitWidth = 415
+  ExplicitHeight = 619
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel3: TPanel
+    Top = 502
+    ExplicitTop = 502
+  end
   inherited pnlLabels: TPanel
+    Height = 502
+    ExplicitHeight = 502
     inherited Label3: TLabel
       Top = 372
       ExplicitTop = 372
@@ -43,22 +51,31 @@ inherited frmSpaarpotImpl: TfrmSpaarpotImpl
     end
   end
   inherited pnlFields: TPanel
+    Height = 502
+    ExplicitHeight = 502
     inherited cmbBetaling: TComboBox
       Top = 364
-      TabOrder = 13
+      TabOrder = 11
       ExplicitTop = 364
     end
     inherited edtTelefoon: TEdit
       Top = 240
+      TabOrder = 7
       ExplicitTop = 240
     end
     inherited edtEmail: TEdit
       Top = 272
+      TabOrder = 8
       ExplicitTop = 272
     end
     inherited edtOmschrijving: TMemo
       Top = 396
+      Lines.Strings = ()
+      TabOrder = 12
       ExplicitTop = 396
+    end
+    inherited edtAlgemeen: TEdit
+      TabOrder = 13
     end
     object edtSpaarpotNr: TEdit
       Left = 6
@@ -67,7 +84,7 @@ inherited frmSpaarpotImpl: TfrmSpaarpotImpl
       Height = 21
       HelpType = htKeyword
       HelpKeyword = 'SpaarpotNr'
-      TabOrder = 10
+      TabOrder = 6
     end
     object cmbLand: TComboBox
       Left = 6
@@ -77,7 +94,7 @@ inherited frmSpaarpotImpl: TfrmSpaarpotImpl
       Hint = 'Landen'
       HelpType = htKeyword
       HelpKeyword = 'Land'
-      TabOrder = 11
+      TabOrder = 9
       TextHint = 'Naam'
     end
     object edtYFONaam: TEdit
@@ -87,7 +104,7 @@ inherited frmSpaarpotImpl: TfrmSpaarpotImpl
       Height = 21
       HelpType = htKeyword
       HelpKeyword = 'YFONaam'
-      TabOrder = 12
+      TabOrder = 10
     end
     object edtSpaarpot: TEdit
       Left = 158

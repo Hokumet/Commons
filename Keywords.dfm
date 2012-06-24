@@ -61,6 +61,10 @@ object frmKeywords: TfrmKeywords
       end
       object tshDon: TTabSheet
         Caption = 'Aylik Bagis'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label2: TLabel
           Left = 3
           Top = 16
@@ -104,6 +108,10 @@ object frmKeywords: TfrmKeywords
       end
       object tshWees: TTabSheet
         Caption = 'Yetim Kardes Aile'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label3: TLabel
           Left = 3
           Top = 16
@@ -149,6 +157,10 @@ object frmKeywords: TfrmKeywords
       object tshArm: TTabSheet
         Caption = 'Fair Kardes Aile'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label4: TLabel
           Left = 3
           Top = 16
@@ -194,6 +206,10 @@ object frmKeywords: TfrmKeywords
       object tshVrijw: TTabSheet
         Caption = 'G'#246'n'#252'll'#252
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label5: TLabel
           Left = 3
           Top = 16
@@ -235,6 +251,10 @@ object frmKeywords: TfrmKeywords
       object tshSpaa: TTabSheet
         Caption = 'Kumbara'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label6: TLabel
           Left = 3
           Top = 16
@@ -291,21 +311,34 @@ object frmKeywords: TfrmKeywords
         object Memo6: TMemo
           Left = 3
           Top = 35
-          Width = 238
+          Width = 206
           Height = 134
           Enabled = False
           Lines.Strings = (
             'Sira No                   = __LidNr__'
+            'Kayit Tarihi             = __LidNr__'
             'Aid Soyadi              = __Naam__'
             'Adres                     = __Straat__'
             'Posta kodu             = __PostCode__'
-            'Sehir                       = __Plaats__'
-            'Kategori                  = __Categorie__'
-            'Telefon                   = __Telefoonnr__'
-            'E-mail                      = __Email__'
-            'A'#231'iklama                  = __Omschrijving__')
+            'Sehir                       = __Plaats___'
+            'Banka No                = __Banknr__'
+            'Miktar                     = __Bedrag__'
+            'Telefon                   = __Telefoonnr__')
           TabOrder = 0
-          WantTabs = True
+        end
+        object Memo12: TMemo
+          Left = 227
+          Top = 35
+          Width = 206
+          Height = 134
+          Enabled = False
+          Lines.Strings = (
+            'E-mail                      = __Email__'
+            #220'lke                         = __Land__'
+            #214'grenci Adi              = __YFONaam__'
+            'Aidat Takip              = __Betaling__'
+            'A'#231'iklama                  = __Omschrijving__')
+          TabOrder = 1
         end
       end
     end

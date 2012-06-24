@@ -97,7 +97,8 @@ type
     SQL: String;
     frmHEdit: TfrmHEdit;
     showFix: Boolean;
-    procedure ListDataToExcel;
+    procedure ExportToExcel;
+    procedure SendMail();
     procedure CloseDatase;
     procedure SetFilterFalse;
     procedure LoadFiltered(SQL: String); virtual;
@@ -128,6 +129,11 @@ type
     function GetComboFieldFilter(FieldName: String; edtField: TCombobox): String;
     function GetLastNr(SortFieldName: String; STable:TADOTable): String;
     procedure StartProcs(); virtual;
+    procedure ClearPanelFilter(panel: TPanel);
+    function GetFilterFromPanel(panel: TPanel): String;
+    procedure LoadSearchFields(panel: TPanel);
+    procedure LoadComboField(comboField:TComboBox);
+    procedure FillCmb(cmb: TComboBox; def: String);
   public
     Inifile: TIniFile;
     userType: Integer;
@@ -173,6 +179,33 @@ const
   LVBKIF_STYLE_NORMAL = 0;
   LVBKIF_STYLE_TILE = 16;
   LVBKIF_STYLE_MASK = 16;
+
+procedure TfrmMainAncestor.FillCmb(cmb: TComboBox; def: String);
+var I: Integer;
+    table:String;
+    field:String;
+begin
+  table :=  cmb.ImeName;
+  field := cmb.Hint;
+  DBTQuery.SQL.Clear;
+  DBTQuery.SQL.Add('Select *  from '+ table);
+  DBTQuery.ExecSQL;
+
+  DBTQuery.Open;
+  DBTQuery.First;
+
+  cmb.AddItem('', Pointer(0));
+
+  for I := 0 to DBTQuery.RecordCount -1 do begin
+    cmb.AddItem(DBTQuery.FieldByName(field).AsString, Pointer(DBTQuery.FieldByName('Id').AsInteger));
+    if(DBTQuery.FieldByName(field).AsString = def) then begin
+      cmb.ItemIndex := I;
+    end;
+    DBTQuery.Next;
+  end;
+  if cmb.ItemIndex = -1 then
+    cmb.ItemIndex := 0;
+end;
 
 procedure TfrmMainAncestor.FormCreate(Sender: TObject);
 begin
@@ -291,8 +324,13 @@ end;
 function TfrmMainAncestor.GetEdtFieldFilter(FieldName: String;
   edtField: TEdit): String;
 begin
-  if not(edtField.Text = '') then
-    Result := ' AND ' + FieldName + '=' + edtField.Text
+      { TODO : Like is not working }
+  if not(edtField.Text = '') then begin
+    if edtField.ImeName = 'like' then
+      Result := ' AND ' + FieldName + ' like ' + QuotedStr(edtField.Text + '*')
+    else
+      Result := ' AND ' + FieldName + '='  + edtField.Text;
+  end
   else
     Result := '';
 end;
@@ -303,12 +341,14 @@ begin
 
   DBTQuery.Connection := STable.Connection;
   DBTQuery.SQL.Clear;
-  DBTQuery.SQL.Add('Select '+ SortFieldName +' from ' + STable.TableName + ' Order by '+ SortFieldName + ' DESC');
+  DBTQuery.SQL.Add('Select * from ' + STable.TableName + ' Order by '+ SortFieldName + ' DESC');
 
   if not DBTQuery.Active then
     DBTQuery.Open;
 
   DBTQuery.ExecSQL;
+  //DBTQuery.Last;
+  //Result := DBTQuery.FieldByName(SortFieldName).AsString;
   DBTQuery.First;
   Result := DBTQuery.FieldByName(SortFieldName).AsString;
 end;
@@ -316,8 +356,8 @@ end;
 function TfrmMainAncestor.GetComboFieldFilter(FieldName: String;
   edtField: TCombobox): String;
 begin
-  if not(edtField.SelText = '') and not (edtField.SelText = edtField.TextHint) then
-    Result := ' AND ' + FieldName + '=' + edtField.Text
+  if not(edtField.Text = '') and not (edtField.Text = edtField.TextHint) then
+    Result := ' AND ' + FieldName + '=' + QuotedStr(edtField.Text)
   else
     Result := '';
 end;
@@ -375,6 +415,37 @@ begin
   end;
 end;
 
+procedure TfrmMainAncestor.SendMail;
+const
+  olMailItem = 0;
+var
+  Outlook: OLEVariant;
+  MailItem: Variant;
+  MailInspector : Variant;
+  stringlist : TStringList;
+begin
+  try
+   Outlook:=GetActiveOleObject('Outlook.Application') ;
+  except
+   Outlook:=CreateOleObject('Outlook.Application') ;
+  end;
+  try
+    Stringlist := TStringList.Create;
+    MailItem := Outlook.CreateItem(olMailItem) ;
+    MailItem.Subject := 'subject here';
+    MailItem.Recipients.Add('someone@yahoo.com');
+    MailItem.Attachments.Add('c:\boot.ini');
+    Stringlist := TStringList.Create;
+    StringList.Add('body here');
+    MailItem.Body := StringList.text;
+    MailInspector := MailItem.GetInspector;
+    MailInspector.display(true); //true means modal
+  finally
+    Outlook := Unassigned;
+    StringList.Free;
+  end;
+end;
+
 procedure TfrmMainAncestor.SetDBReady(Filter, SortField: String);
 begin
   lvwItems.Clear;
@@ -394,7 +465,53 @@ end;
 procedure TfrmMainAncestor.SetFilterFalse;
 begin
   Filtering := False;
+  ClearPanelFilter(nil);
   Refresh;
+end;
+
+function TfrmMainAncestor.GetFilterFromPanel(panel: TPanel): String;
+var
+  I: Integer;
+  edt: TEdit;
+  curr: THCurrencyEdit;
+  combo: TComboBox;
+  FieldName, FilterString: String;
+  pnl:TPanel;
+begin
+  if panel = nil then
+    pnl := pnlHeader
+  else
+    pnl := panel;
+
+  for I := 0 to pnl.ControlCount - 1 do
+  begin
+    if pnl.Controls[I].Visible then
+    begin
+      if pnl.Controls[I] is TEdit then
+      begin
+        edt := TEdit(pnl.Controls[I]);
+        FieldName := edt.HelpKeyword;
+        FilterString := FilterString +
+          GetEdtFieldFilter(FieldName, edt);
+      end
+      else if pnl.Controls[I] is THCurrencyEdit then
+      begin
+        curr := THCurrencyEdit(pnl.Controls[I]);
+        FieldName := curr.HelpKeyword;
+        FilterString := FilterString + GetCurrencyFieldFilter
+          (FieldName, curr);
+      end
+      else if pnl.Controls[I] is TComboBox then
+      begin
+        combo := TComboBox(pnl.Controls[I]);
+        FieldName := combo.HelpKeyword;
+        FilterString := FilterString + GetComboFieldFilter
+          (FieldName, combo);
+      end;
+    end;
+  end;
+
+  Result := FilterString;
 end;
 
 procedure TfrmMainAncestor.edtZoekenKeyUp(Sender: TObject; var Key: Word;
@@ -576,10 +693,10 @@ procedure TfrmMainAncestor.Initialize(var Message: TMessage);
 var
   Bool: Boolean;
 begin
-{$IFDEF HKC}
-  OpenDatasets;
-  btnBegin.Click;
-{$ELSE}
+//{$IFDEF HKC}
+//  OpenDatasets;
+//  btnBegin.Click;
+//{$ELSE}
   Bool := False;
   PasswordAncestorDlg := TPasswordAncestorDlg.Create(Self);
   PasswordAncestorDlg.edtDatabase.Text := Inifile.ReadString('database',
@@ -592,8 +709,8 @@ begin
       StatusBar.Panels.Items[1].Text := user;
       userType := PasswordAncestorDlg.userType;
       Bool := True;
-      OpenDatasets;
-      Refresh;
+      //OpenDatasets;
+      //Refresh;
     end;
   finally
     PasswordAncestorDlg.Free;
@@ -602,7 +719,7 @@ begin
       // else
       // btnGebruikers.Visible := not(userType = 1);
   end;
-{$ENDIF}
+//{$ENDIF}
 end;
 
 procedure TfrmMainAncestor.Instellingen1Click(Sender: TObject);
@@ -614,6 +731,14 @@ begin
   finally
     frmSettingAncestor.Free;
   end
+end;
+
+procedure TfrmMainAncestor.loadComboField(comboField: TComboBox);
+var
+  value: String;
+begin
+  value := CurrentTable.FieldByName(comboField.HelpKeyword).AsString;
+  FillCmb(comboField,  value);
 end;
 
 procedure TfrmMainAncestor.RefreshBackground;
@@ -641,7 +766,37 @@ procedure TfrmMainAncestor.ReloadDatabase;
 begin
   CloseDatase;
   LoadDatabase;
+  OpenDatasets;
   Refresh;
+  LoadSearchFields(nil);
+end;
+
+procedure TfrmMainAncestor.LoadSearchFields(panel: TPanel);
+var
+  I: Integer;
+  edt: TEdit;
+  curr: THCurrencyEdit;
+  combo: TComboBox;
+  FieldName, FilterString: String;
+  pnl:TPanel;
+
+begin
+  if panel = nil then
+    pnl := pnlHeader
+  else
+    pnl := panel;
+
+  for I := 0 to pnl.ControlCount - 1 do
+  begin
+    if pnl.Controls[I].Visible then
+    begin
+     if pnl.Controls[I] is TComboBox then
+      begin
+        combo := TComboBox(pnl.Controls[I]);
+        LoadComboField(combo);
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMainAncestor.LoadDatabase;
@@ -694,7 +849,7 @@ begin
   AdoTableList := TObjectList.Create;
   // DBTUyeler.Open;
   // AdoTableList.Add(DBTUyeler);
-  OpenDatasets;
+  //OpenDatasets;
   Filtering := False;
 end;
 
@@ -733,6 +888,43 @@ end;
 procedure TfrmMainAncestor.CloneSelected;
 begin
   CloneRow(CurrentTable, DBTClone, Integer(lvwItems.Selected.Data));
+end;
+
+procedure TfrmMainAncestor.ClearPanelFilter(panel: TPanel);
+var
+  I: Integer;
+  edt: TEdit;
+  curr: THCurrencyEdit;
+  combo: TComboBox;
+  FieldName: String;
+  pnl:TPanel;
+begin
+  if panel = nil then
+    pnl := pnlHeader
+  else
+    pnl := panel;
+
+  for I := 0 to pnl.ControlCount - 1 do
+  begin
+    if pnl.Controls[I].Visible then
+    begin
+      if pnl.Controls[I] is TEdit then
+      begin
+        edt := TEdit(pnl.Controls[I]);
+        edt.Clear;
+      end
+      else if pnl.Controls[I] is THCurrencyEdit then
+      begin
+        curr := THCurrencyEdit(pnl.Controls[I]);
+        curr.Clear;
+      end
+      else if pnl.Controls[I] is TComboBox then
+      begin
+        combo := TComboBox(pnl.Controls[I]);
+        combo.ItemIndex := -1;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMainAncestor.CloneRow(ATable, CloneTable: TADOTable;
@@ -817,7 +1009,7 @@ begin
 /// in the inherited
 end;
 
-procedure TfrmMainAncestor.ListDataToExcel;
+procedure TfrmMainAncestor.ExportToExcel;
 var
   { excel }
   Sheet, objExcel: Variant;

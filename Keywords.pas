@@ -28,7 +28,6 @@ type
     Memo4: TMemo;
     Label6: TLabel;
     Label7: TLabel;
-    Memo6: TMemo;
     Memo8: TMemo;
     Memo5: TMemo;
     Memo9: TMemo;
@@ -38,6 +37,8 @@ type
     Memo10: TMemo;
     Memo11: TMemo;
     Memo3: TMemo;
+    Memo6: TMemo;
+    Memo12: TMemo;
   private
     { Private declarations }
   public

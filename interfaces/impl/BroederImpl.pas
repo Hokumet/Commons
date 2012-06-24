@@ -13,6 +13,7 @@ type
     edtYFONaam: TEdit;
     edtWees: TEdit;
     edtArm: TEdit;
+    edtBeurs: TEdit;
   private
     { Private declarations }
   public
@@ -34,11 +35,21 @@ begin
     inherited Create(Owner, ID, AdoTable);
     if(Extra = 'Wees') then begin
       edtArm.Text := 'false';
+      edtBeurs.Text := 'false';
       lblBroeder.Caption := 'Yetimin Adi:';
+      frmBroederImpl.Caption := 'Yetim kardes Aile'
+    end
+    else if (Extra = 'Arm') then begin
+      edtWees.Text := 'false';
+      edtBeurs.Text := 'false';
+      lblBroeder.Caption := 'Fakirin Adi:';
+      frmBroederImpl.Caption := 'Fakir kardes Aile'
     end
     else begin
+      edtArm.Text := 'false';
       edtWees.Text := 'false';
-      lblBroeder.Caption := 'Fakirin Adi:';
+      lblBroeder.Caption := 'Ögrenci Adi:';
+      frmBroederImpl.Caption := 'Burs'
     end;
 end;
 

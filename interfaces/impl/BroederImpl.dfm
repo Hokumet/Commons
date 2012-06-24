@@ -1,8 +1,17 @@
 inherited frmBroederImpl: TfrmBroederImpl
   Caption = 'frmBroederImpl'
+  ClientHeight = 634
+  ExplicitTop = 8
+  ExplicitHeight = 672
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel3: TPanel
+    Top = 555
+    ExplicitTop = 555
+  end
   inherited pnlLabels: TPanel
+    Height = 555
+    ExplicitHeight = 555
     inherited Label3: TLabel
       Top = 404
       ExplicitTop = 404
@@ -20,16 +29,24 @@ inherited frmBroederImpl: TfrmBroederImpl
     end
   end
   inherited pnlFields: TPanel
+    Height = 555
+    ExplicitHeight = 555
     inherited cmbBetaling: TComboBox
       Top = 396
+      TabOrder = 12
       ExplicitTop = 396
     end
     inherited edtTelefoon: TEdit
-      TabOrder = 14
+      TabOrder = 8
     end
     inherited edtOmschrijving: TMemo
       Top = 431
+      Lines.Strings = ()
+      TabOrder = 13
       ExplicitTop = 431
+    end
+    inherited edtAlgemeen: TEdit
+      TabOrder = 14
     end
     object edtYFONaam: TEdit
       Left = 6
@@ -38,7 +55,7 @@ inherited frmBroederImpl: TfrmBroederImpl
       Height = 21
       HelpType = htKeyword
       HelpKeyword = 'YFONaam'
-      TabOrder = 13
+      TabOrder = 11
     end
     object edtWees: TEdit
       Left = 158
@@ -59,6 +76,17 @@ inherited frmBroederImpl: TfrmBroederImpl
       HelpType = htKeyword
       HelpKeyword = 'Arm'
       TabOrder = 16
+      Text = 'true'
+      Visible = False
+    end
+    object edtBeurs: TEdit
+      Left = 158
+      Top = 208
+      Width = 43
+      Height = 21
+      HelpType = htKeyword
+      HelpKeyword = 'Beurs'
+      TabOrder = 17
       Text = 'true'
       Visible = False
     end

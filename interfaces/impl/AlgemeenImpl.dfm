@@ -1,16 +1,16 @@
 inherited frmAlgemeenImpl: TfrmAlgemeenImpl
   Caption = 'frmAlgemeenImpl'
-  ClientHeight = 459
-  ExplicitHeight = 497
+  ClientHeight = 466
+  ExplicitHeight = 504
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel3: TPanel
-    Top = 380
-    ExplicitTop = 380
+    Top = 387
+    ExplicitTop = 387
   end
   inherited pnlLabels: TPanel
-    Height = 380
-    ExplicitHeight = 380
+    Height = 387
+    ExplicitHeight = 387
     inherited Label11: TLabel
       Top = 216
       ExplicitTop = 216
@@ -32,8 +32,8 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
     end
   end
   inherited pnlFields: TPanel
-    Height = 380
-    ExplicitHeight = 380
+    Height = 387
+    ExplicitHeight = 387
     inherited edtAlgemeen: TEdit [0]
       Left = 136
       TabOrder = 9
@@ -51,14 +51,18 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
     end
     inherited edtTelefoon: TEdit [6]
       Top = 208
+      TabOrder = 6
       ExplicitTop = 208
     end
     inherited edtEmail: TEdit [7]
       Top = 240
+      TabOrder = 7
       ExplicitTop = 240
     end
     inherited edtOmschrijving: TMemo [8]
       Top = 273
+      Lines.Strings = ()
+      TabOrder = 8
       ExplicitTop = 273
     end
     object cmbCategorie: TComboBox
@@ -69,7 +73,7 @@ inherited frmAlgemeenImpl: TfrmAlgemeenImpl
       Hint = 'Categorieen'
       HelpType = htKeyword
       HelpKeyword = 'Categorie'
-      TabOrder = 8
+      TabOrder = 5
       TextHint = 'Categorie'
     end
   end

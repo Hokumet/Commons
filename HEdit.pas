@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, HolderEdits, AdoDB, Contnrs, Data.DB;
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, HolderEdits, AdoDB, Contnrs, Data.DB, cyRunTimeResize,
+  cyResizer, cyBaseButton, cyBitBtn, cyBaseLabel, cyLabel, cyDBLabel;
 
 type
   TfrmHEdit = class(TForm)
@@ -19,10 +20,14 @@ type
     pnlLabels: TPanel;
     pnlFields: TPanel;
     CurrQuery: TADOQuery;
+    cyDBLabel1: TcyDBLabel;
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+//    procedure cyBitBtn1Click(Sender: TObject);
   private
     sFieldName: String;
     sFieldValue: String;
@@ -31,6 +36,8 @@ type
     MasterKey: String;
     TableObjectList: TObjectList;
     procedure fillCmb(cmb:TComboBox; def:String);
+    procedure ReadControlPlacement;
+    procedure WriteControlPlacement;
   protected
     function getFieldName(edtField: TControl):String;
     function getFieldValue(edtField: TControl):String;
@@ -63,7 +70,7 @@ var
 
 implementation
 
-uses Main, DateUtils;
+uses Main, DateUtils, inifiles;
 {$R *.dfm}
 { TfrmEditAlgemeen }
 
@@ -150,6 +157,19 @@ begin
   btnReset.Visible := not(Id = 0);
 end;
 
+//procedure TfrmHEdit.cyBitBtn1Click(Sender: TObject);
+//begin
+//if not cyResizer1.Active
+//  then begin
+//    cyResizer1.Activate(pnlFields);
+//    self.Caption := 'Deactivate designing mode';
+//  end
+//  else begin
+//    cyResizer1.Deactivate;
+//    self.Caption := 'Activate designing mode';
+//  end;
+//end;
+
 procedure TfrmHEdit.fillCmb(cmb: TComboBox; def: String);
 var I: Integer;
     table:String;
@@ -173,6 +193,71 @@ begin
   end;
   if cmb.ItemIndex = -1 then
     cmb.ItemIndex := 0;
+end;
+
+procedure TfrmHEdit.WriteControlPlacement;
+var
+   iniFile : TIniFile;
+   idx : integer;
+   ctrl : TControl;
+begin
+   iniFile := TIniFile.Create(ChangeFileExt(Application.ExeName,'.ini')) ;
+   try
+     for idx := 0 to -1 + Self.ComponentCount do
+     begin
+       if Components[idx] is TControl then
+       begin
+         ctrl := TControl(Components[idx]) ;
+         iniFile.WriteInteger(ctrl.Name,'Top',ctrl.Top) ;
+         iniFile.WriteInteger(ctrl.Name,'Left',ctrl.Left) ;
+         iniFile.WriteInteger(ctrl.Name,'Width',ctrl.Width) ;
+         iniFile.WriteInteger(ctrl.Name,'Height',ctrl.Height) ;
+         if ctrl is TEdit then
+           iniFile.WriteString(ctrl.Name,'FieldName',ctrl.HelpKeyword) ;
+       end;
+     end;
+   finally
+     FreeAndNil(iniFile) ;
+   end;
+end;
+
+
+procedure TfrmHEdit.ReadControlPlacement;
+var
+   iniFile : TIniFile;
+   idx : integer;
+   ctrl : TControl;
+begin
+   iniFile := TIniFile.Create(ChangeFileExt(Application.ExeName,'.ini')) ;
+   try
+     for idx := 0 to -1 + Self.ComponentCount do
+     begin
+       if Components[idx] is TControl then
+       begin
+         ctrl := TControl(Components[idx]) ;
+         ctrl.Top := iniFile.ReadInteger(ctrl.Name,'Top',ctrl.Top) ;
+         ctrl.Left := iniFile.ReadInteger(ctrl.Name,'Left',ctrl.Left) ;
+         ctrl.Width := iniFile.ReadInteger(ctrl.Name,'Width',ctrl.Width) ;
+         ctrl.Height := iniFile.ReadInteger(ctrl.Name,'Height',ctrl.Height) ;
+         if ctrl is TEdit then
+           iniFile.WriteString(ctrl.Name,'FieldName',ctrl.HelpKeyword) ;
+       end;
+     end;
+   finally
+     FreeAndNil(iniFile) ;
+   end;
+end; (*ReadControlPlacement*)
+
+
+procedure TfrmHEdit.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  //WriteControlPlacement;
+end;
+
+procedure TfrmHEdit.FormCreate(Sender: TObject);
+begin
+  //ReadControlPlacement;
+  //  cyRunTimeResize1.Control := Self;
 end;
 
 procedure TfrmHEdit.FormKeyPress(Sender: TObject; var Key: Char);
@@ -319,7 +404,7 @@ var
   value: String;
 begin
   value := CurrTable.FieldByName(memoField.HelpKeyword).AsString;
-  memoField.Lines.Add(value);
+  memoField.Lines.Text := value;
 end;
 
 procedure TfrmHEdit.AfterLoad;

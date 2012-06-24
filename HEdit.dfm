@@ -11,6 +11,8 @@ object frmHEdit: TfrmHEdit
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
@@ -36,6 +38,17 @@ object frmHEdit: TfrmHEdit
       Height = 13
       Caption = 'Aangemaakt op:'
     end
+    object cyDBLabel1: TcyDBLabel
+      Left = 208
+      Top = 24
+      Width = 55
+      Height = 13
+      Transparent = False
+      Bevels = <>
+      Degrade.AngleDegree = 0
+      Degrade.FromColor = clWhite
+      Degrade.ToColor = clBtnFace
+    end
     object btnCancel: TBitBtn
       Left = 253
       Top = 15
@@ -47,8 +60,8 @@ object frmHEdit: TfrmHEdit
       OnClick = btnCancelClick
     end
     object btnSave: TBitBtn
-      Left = 45
-      Top = 15
+      Left = 53
+      Top = 14
       Width = 90
       Height = 25
       Caption = '&Ok'

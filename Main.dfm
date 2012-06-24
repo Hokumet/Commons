@@ -2,24 +2,22 @@ inherited frmMain: TfrmMain
   Left = 49
   Top = 0
   Caption = 'Bilgi Bankasi'
-  ClientWidth = 1188
-  ExplicitWidth = 1204
+  ClientWidth = 1248
+  ExplicitWidth = 1264
   ExplicitHeight = 492
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlHeader: TPanel
-    Width = 1188
-    Height = 29
-    ExplicitWidth = 1188
-    ExplicitHeight = 29
+    Width = 1248
+    ExplicitWidth = 1248
     inherited lblHeader: TLabel
       Width = 54
       Caption = 'Arama'
       ExplicitWidth = 54
     end
     object lblPlusMin: TLabel [1]
-      Left = 1176
-      Top = 9
+      Left = 1117
+      Top = 6
       Width = 13
       Height = 19
       Cursor = crHandPoint
@@ -34,6 +32,36 @@ inherited frmMain: TfrmMain
       ParentFont = False
       OnClick = lblPlusMinClick
     end
+    object Label1: TLabel [2]
+      Left = 25
+      Top = 32
+      Width = 57
+      Height = 13
+      Caption = 'Kayit Tarihi:'
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label2: TLabel [3]
+      Left = 94
+      Top = 9
+      Width = 38
+      Height = 13
+      Caption = 'Sira No:'
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
     inherited edtZoeken: TEdit
       Left = 13
       Top = 6
@@ -44,13 +72,14 @@ inherited frmMain: TfrmMain
       ExplicitWidth = 25
     end
     object zkLidnr: TEdit
-      Left = 88
+      Left = 136
       Top = 6
-      Width = 121
+      Width = 58
       Height = 21
       Hint = 'Sira No'
       HelpType = htKeyword
       HelpKeyword = 'Lidnr'
+      ImeName = '='
       NumbersOnly = True
       ParentShowHint = False
       ShowHint = True
@@ -58,13 +87,14 @@ inherited frmMain: TfrmMain
       TextHint = 'Sira No'
     end
     object zkOmschrijving: TEdit
-      Left = 1049
+      Left = 995
       Top = 6
-      Width = 121
+      Width = 116
       Height = 21
       Hint = 'A'#231'iklama'
       HelpType = htKeyword
       HelpKeyword = 'Omschrijving'
+      ImeName = 'like'
       TabOrder = 2
       TextHint = 'A'#231'iklama'
     end
@@ -76,56 +106,63 @@ inherited frmMain: TfrmMain
       Hint = 'Adi Soyadi'
       HelpType = htKeyword
       HelpKeyword = 'Naam'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 3
       TextHint = 'Adi Soyadi'
     end
     object zkStraat: TEdit
-      Left = 357
+      Left = 344
       Top = 6
       Width = 121
       Height = 21
       Hint = 'Adresi'
       HelpType = htKeyword
       HelpKeyword = 'Straat'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 4
       TextHint = 'Adresi'
     end
     object zkPostcode: TEdit
-      Left = 493
+      Left = 485
       Top = 6
-      Width = 121
+      Width = 92
       Height = 21
       Hint = 'Posta kodu'
       HelpType = htKeyword
       HelpKeyword = 'PostCode'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 5
       TextHint = 'Posta kodu'
     end
     object zkPlaats: TEdit
-      Left = 631
+      Left = 598
       Top = 6
-      Width = 121
+      Width = 111
       Height = 21
       Hint = 'Yasadigi sehir'
+      HelpType = htKeyword
+      HelpKeyword = 'Plaats'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 6
       TextHint = 'Yasadigi sehir'
     end
     object zkTelefoon: TEdit
-      Left = 758
+      Left = 728
       Top = 6
-      Width = 121
+      Width = 113
       Height = 21
       Hint = 'Telefon no'
       HelpType = htKeyword
       HelpKeyword = 'Telefoonnr'
+      ImeName = 'like'
       NumbersOnly = True
       ParentShowHint = False
       ShowHint = True
@@ -133,13 +170,14 @@ inherited frmMain: TfrmMain
       TextHint = 'Telefon No'
     end
     object zkEmail: TEdit
-      Left = 913
+      Left = 862
       Top = 6
-      Width = 121
+      Width = 115
       Height = 21
       Hint = 'E-mail Adresi'
       HelpType = htKeyword
       HelpKeyword = 'Email'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 8
@@ -306,18 +344,19 @@ inherited frmMain: TfrmMain
     object zkBetaling: TComboBox
       Left = 215
       Top = 29
-      Width = 121
+      Width = 106
       Height = 21
-      Hint = 'Aidat Takip'
+      Hint = 'Type'
       HelpType = htKeyword
       HelpKeyword = 'Betaling'
+      ImeName = 'Betalingen'
       TabOrder = 13
       TextHint = 'Aidat takip'
     end
     object zkBedrag: THCurrencyEdit
-      Left = 493
+      Left = 485
       Top = 29
-      Width = 121
+      Width = 92
       Height = 21
       Hint = 'Miktar'
       HelpType = htKeyword
@@ -327,59 +366,63 @@ inherited frmMain: TfrmMain
       MaxValue = 99999999.000000000000000000
     end
     object zkBanknr: TEdit
-      Left = 357
+      Left = 344
       Top = 29
       Width = 121
       Height = 21
       Hint = 'Banka No'
       HelpType = htKeyword
       HelpKeyword = 'Bedrag'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 15
       TextHint = 'Banka no'
     end
     object zkDoel: TComboBox
-      Left = 631
+      Left = 598
       Top = 29
-      Width = 121
+      Width = 111
       Height = 21
-      Hint = 'Ama'#231
+      Hint = 'Naam'
       HelpType = htKeyword
       HelpKeyword = 'Doel'
+      ImeName = 'Doelen'
       TabOrder = 16
       TextHint = 'Ama'#231
     end
     object zkLand: TComboBox
-      Left = 759
+      Left = 729
       Top = 29
-      Width = 121
+      Width = 112
       Height = 21
-      Hint = #220'lke'
+      Hint = 'Naam'
       HelpType = htKeyword
       HelpKeyword = 'Land'
+      ImeName = 'Landen'
       ParentShowHint = False
       ShowHint = False
       TabOrder = 17
       TextHint = #220'lke'
     end
     object zkYFONaam: TEdit
-      Left = 913
+      Left = 862
       Top = 29
-      Width = 106
+      Width = 115
       Height = 21
       Hint = 'Yetimin Adi'
       HelpType = htKeyword
       HelpKeyword = 'YFONaam'
+      ImeName = 'like'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 18
       TextHint = 'Yetimin Adi'
     end
     object zkSpaarpotNr: TEdit
-      Left = 1049
+      Left = 995
       Top = 29
-      Width = 121
+      Width = 116
       Height = 21
       Hint = 'Kumbara No'
       HelpType = htKeyword
@@ -392,19 +435,19 @@ inherited frmMain: TfrmMain
     end
   end
   inherited CoolBar: TCoolBar
-    Width = 1188
+    Width = 1248
     Bands = <
       item
         Control = ToolBar
         ImageIndex = -1
         MinHeight = 64
-        Width = 1186
+        Width = 1246
       end>
-    ExplicitWidth = 1188
+    ExplicitWidth = 1248
     inherited ToolBar: TToolBar
-      Width = 1177
+      Width = 1237
       ButtonWidth = 95
-      ExplicitWidth = 1177
+      ExplicitWidth = 1237
       inherited btnNew: TToolButton
         Caption = '&Yeni'
         OnClick = btnNewClick
@@ -515,11 +558,12 @@ inherited frmMain: TfrmMain
         Grouped = True
         ImageIndex = 16
         Style = tbsCheck
+        OnClick = btnBeursClick
       end
     end
   end
   inherited StatusBar: TStatusBar
-    Width = 1188
+    Width = 1248
     Panels = <
       item
         Text = 'Kullanici:'
@@ -542,12 +586,10 @@ inherited frmMain: TfrmMain
         Text = 'worddoc'
         Width = 50
       end>
-    ExplicitWidth = 1188
+    ExplicitWidth = 1248
   end
   inherited lvwItems: TMyListView
-    Top = 89
-    Width = 1013
-    Height = 326
+    Width = 1073
     Items.ItemData = {
       05C00000000400000000000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000
       00044E00610061006D00044E00610061006D00200DBF0E00000000FFFFFFFFFF
@@ -558,23 +600,12 @@ inherited frmMain: TfrmMain
       00FFFFFFFF}
     OnEnter = lvwItemsEnter
     ExplicitLeft = 180
-    ExplicitTop = 116
-    ExplicitWidth = 1207
-    ExplicitHeight = 299
-  end
-  inherited pnlExtra: TPanel
-    Top = 89
-    Height = 326
-    ExplicitTop = 89
-    ExplicitHeight = 326
-    inherited lvwExtra: TListView
-      Height = 324
-      ExplicitHeight = 324
-    end
+    ExplicitTop = 93
+    ExplicitWidth = 1073
   end
   inherited imgMainButtons: TImageList
     Bitmap = {
-      494C01011F002200180120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F002200300120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4807,7 +4838,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgPmSmall: TImageList
     Bitmap = {
-      494C010113001800180110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010113001800300110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5480,6 +5511,10 @@ inherited frmMain: TfrmMain
       've\ontw\Ihh-Led\Commons\bin\IhhLed.accdb;Persist Security Info=T' +
       'rue;Jet OLEDB:Database Password=ihhmuhasebe'
   end
+  inherited DBTQuery: TADOQuery
+    Left = 184
+    Top = 264
+  end
   inherited MainMenu1: TMainMenu
     Left = 416
     inherited Bestand1: TMenuItem
@@ -5514,7 +5549,16 @@ inherited frmMain: TfrmMain
       end
     end
     inherited Extra1: TMenuItem
-      object Keywords1: TMenuItem [0]
+      object SendEmail: TMenuItem [0]
+        Caption = '&Email at'
+        Visible = False
+        OnClick = SendEmailClick
+      end
+      object btnExportToExcel: TMenuItem [1]
+        Caption = 'Excel'#39'e kopyala'
+        OnClick = btnExportToExcelClick
+      end
+      object Keywords1: TMenuItem [2]
         Caption = 'Anahtar kelimeler'
         OnClick = Keywords1Click
       end
@@ -5655,6 +5699,10 @@ inherited frmMain: TfrmMain
     end
     object ATableWees: TWideStringField
       FieldName = 'Wees'
+      Size = 255
+    end
+    object ATableBeurs: TWideStringField
+      FieldName = 'Beurs'
       Size = 255
     end
     object ATableAangemaaktDoor: TWideStringField
