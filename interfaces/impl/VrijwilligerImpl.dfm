@@ -1,7 +1,5 @@
 inherited frmVrijwilligerImpl: TfrmVrijwilligerImpl
-  Caption = 'frmVrijwilligerImpl'
   ClientHeight = 499
-  ExplicitWidth = 415
   ExplicitHeight = 537
   PixelsPerInch = 96
   TextHeight = 13

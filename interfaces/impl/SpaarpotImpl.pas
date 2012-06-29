@@ -5,14 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ISpaarpot, Data.DB, Data.Win.ADODB,
-  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls, cyBaseLabel, cyLabel,
+  cyDBLabel;
 
 type
   TfrmSpaarpotImpl = class(TfrmISpaarpot)
-    Label5: TLabel;
-    Label6: TLabel;
-    cmbLand: TComboBox;
-    edtYFONaam: TEdit;
     Label4: TLabel;
     edtSpaarpotNr: TEdit;
     edtSpaarpot: TEdit;

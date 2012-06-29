@@ -1,7 +1,5 @@
 inherited frmDonatieImpl: TfrmDonatieImpl
-  Caption = 'frmDonatieImpl'
   ClientHeight = 595
-  ExplicitWidth = 415
   ExplicitHeight = 633
   PixelsPerInch = 96
   TextHeight = 13

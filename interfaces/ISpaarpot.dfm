@@ -1,14 +1,16 @@
 inherited frmISpaarpot: TfrmISpaarpot
-  Caption = 'frmISpaarpot'
+  Caption = 'Kumbaraci bilgileri'
   ClientHeight = 498
   ExplicitHeight = 536
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel3: TPanel
     Top = 419
+    ExplicitTop = 419
   end
   inherited pnlLabels: TPanel
     Height = 419
+    ExplicitHeight = 419
     object Label3: TLabel [2]
       Left = 16
       Top = 280
@@ -23,6 +25,7 @@ inherited frmISpaarpot: TfrmISpaarpot
   end
   inherited pnlFields: TPanel
     Height = 419
+    ExplicitHeight = 419
     object cmbBetaling: TComboBox [2]
       Left = 6
       Top = 272
@@ -31,12 +34,11 @@ inherited frmISpaarpot: TfrmISpaarpot
       Hint = 'Betalingen'
       HelpType = htKeyword
       HelpKeyword = 'Betaling'
-      TabOrder = 8
+      TabOrder = 10
       TextHint = 'Type'
     end
     inherited edtOmschrijving: TMemo
       Top = 304
-      TabOrder = 9
       ExplicitTop = 304
     end
   end

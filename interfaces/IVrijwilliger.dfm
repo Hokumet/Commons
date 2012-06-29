@@ -1,7 +1,6 @@
 inherited frmIVrijwilliger: TfrmIVrijwilliger
-  Caption = 'frmIVrijwilliger'
+  Caption = 'G'#246'n'#252'll'#252' bilgileri'
   ClientHeight = 471
-  ExplicitTop = 8
   ExplicitHeight = 509
   PixelsPerInch = 96
   TextHeight = 13
@@ -94,7 +93,7 @@ inherited frmIVrijwilliger: TfrmIVrijwilliger
     end
     inherited edtOmschrijving: TMemo
       Top = 273
-      TabOrder = 8
+      TabOrder = 9
       ExplicitTop = 273
     end
   end

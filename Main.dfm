@@ -9,7 +9,9 @@ inherited frmMain: TfrmMain
   TextHeight = 13
   inherited pnlHeader: TPanel
     Width = 1248
+    Height = 45
     ExplicitWidth = 1248
+    ExplicitHeight = 45
     inherited lblHeader: TLabel
       Width = 54
       Caption = 'Arama'
@@ -85,6 +87,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 1
       TextHint = 'Sira No'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkOmschrijving: TEdit
       Left = 995
@@ -97,6 +100,7 @@ inherited frmMain: TfrmMain
       ImeName = 'like'
       TabOrder = 2
       TextHint = 'A'#231'iklama'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkNaam: TEdit
       Left = 215
@@ -111,6 +115,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 3
       TextHint = 'Adi Soyadi'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkStraat: TEdit
       Left = 344
@@ -125,6 +130,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 4
       TextHint = 'Adresi'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkPostcode: TEdit
       Left = 485
@@ -139,6 +145,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 5
       TextHint = 'Posta kodu'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkPlaats: TEdit
       Left = 598
@@ -153,6 +160,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 6
       TextHint = 'Yasadigi sehir'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkTelefoon: TEdit
       Left = 728
@@ -168,6 +176,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 7
       TextHint = 'Telefon No'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkEmail: TEdit
       Left = 862
@@ -182,6 +191,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 8
       TextHint = 'E-mail adresi'
+      OnKeyPress = zkLidnrKeyPress
     end
     object btnZoeken: TBitBtn
       Left = 7
@@ -316,6 +326,7 @@ inherited frmMain: TfrmMain
       NumbersOnly = True
       TabOrder = 10
       TextHint = 'G'#252'n'
+      OnKeyPress = zkLidnrKeyPress
     end
     object edtLidMaand: TEdit
       Left = 120
@@ -328,6 +339,7 @@ inherited frmMain: TfrmMain
       NumbersOnly = True
       TabOrder = 11
       TextHint = 'Ay'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkLidJaar: TEdit
       Left = 152
@@ -340,6 +352,7 @@ inherited frmMain: TfrmMain
       NumbersOnly = True
       TabOrder = 12
       TextHint = 'Yil'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkBetaling: TComboBox
       Left = 215
@@ -352,6 +365,7 @@ inherited frmMain: TfrmMain
       ImeName = 'Betalingen'
       TabOrder = 13
       TextHint = 'Aidat takip'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkBedrag: THCurrencyEdit
       Left = 485
@@ -362,6 +376,7 @@ inherited frmMain: TfrmMain
       HelpType = htKeyword
       HelpKeyword = 'Bedrag'
       TabOrder = 14
+      OnKeyPress = zkLidnrKeyPress
       Alignment = taRightJustify
       MaxValue = 99999999.000000000000000000
     end
@@ -378,6 +393,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 15
       TextHint = 'Banka no'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkDoel: TComboBox
       Left = 598
@@ -390,6 +406,7 @@ inherited frmMain: TfrmMain
       ImeName = 'Doelen'
       TabOrder = 16
       TextHint = 'Ama'#231
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkLand: TComboBox
       Left = 729
@@ -404,6 +421,7 @@ inherited frmMain: TfrmMain
       ShowHint = False
       TabOrder = 17
       TextHint = #220'lke'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkYFONaam: TEdit
       Left = 862
@@ -418,6 +436,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 18
       TextHint = 'Yetimin Adi'
+      OnKeyPress = zkLidnrKeyPress
     end
     object zkSpaarpotNr: TEdit
       Left = 995
@@ -432,6 +451,7 @@ inherited frmMain: TfrmMain
       ShowHint = True
       TabOrder = 19
       TextHint = 'Kumbara No'
+      OnKeyPress = zkLidnrKeyPress
     end
   end
   inherited CoolBar: TCoolBar
@@ -589,7 +609,9 @@ inherited frmMain: TfrmMain
     ExplicitWidth = 1248
   end
   inherited lvwItems: TMyListView
+    Top = 105
     Width = 1073
+    Height = 310
     Items.ItemData = {
       05C00000000400000000000000FFFFFFFFFFFFFFFF01000000FFFFFFFF000000
       00044E00610061006D00044E00610061006D00200DBF0E00000000FFFFFFFFFF
@@ -603,9 +625,16 @@ inherited frmMain: TfrmMain
     ExplicitTop = 93
     ExplicitWidth = 1073
   end
+  inherited pnlExtra: TPanel
+    Top = 105
+    Height = 310
+    inherited lvwExtra: TListView
+      Height = 308
+    end
+  end
   inherited imgMainButtons: TImageList
     Bitmap = {
-      494C01011F002200300120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F002200340120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4838,7 +4867,7 @@ inherited frmMain: TfrmMain
   end
   inherited imgPmSmall: TImageList
     Bitmap = {
-      494C010113001800300110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010113001800340110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

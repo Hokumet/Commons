@@ -1,5 +1,4 @@
 inherited frmAlgemeenImpl: TfrmAlgemeenImpl
-  Caption = 'frmAlgemeenImpl'
   ClientHeight = 466
   ExplicitHeight = 504
   PixelsPerInch = 96

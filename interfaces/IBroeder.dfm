@@ -1,8 +1,6 @@
 inherited frmIBroeder: TfrmIBroeder
   Caption = 'frmIBroeder'
   ClientHeight = 597
-  ExplicitTop = -51
-  ExplicitWidth = 415
   ExplicitHeight = 635
   PixelsPerInch = 96
   TextHeight = 13
@@ -51,6 +49,9 @@ inherited frmIBroeder: TfrmIBroeder
       HelpKeyword = 'Land'
       TabOrder = 10
       TextHint = 'Naam'
+    end
+    inherited edtTelefoon: TEdit
+      TabOrder = 13
     end
     inherited edtOmschrijving: TMemo
       Top = 398

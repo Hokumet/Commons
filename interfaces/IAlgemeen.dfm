@@ -1,5 +1,5 @@
 inherited frmIAlgemeen: TfrmIAlgemeen
-  Caption = 'frmIAlgemeen'
+  Caption = 'Genel bilgiler'
   ClientHeight = 431
   ExplicitWidth = 415
   ExplicitHeight = 469

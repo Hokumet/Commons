@@ -1,5 +1,5 @@
 inherited frmIDonatie: TfrmIDonatie
-  Caption = 'frmIDonatie'
+  Caption = 'Bagis'#231'i bilgileri'
   ClientHeight = 562
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -56,7 +56,6 @@ inherited frmIDonatie: TfrmIDonatie
     inherited cmbBetaling: TComboBox
       Top = 336
       Width = 123
-      TabOrder = 10
       ExplicitTop = 336
       ExplicitWidth = 123
     end
@@ -82,7 +81,7 @@ inherited frmIDonatie: TfrmIDonatie
     end
     inherited edtTelefoon: TEdit
       Top = 272
-      TabOrder = 8
+      TabOrder = 12
       ExplicitTop = 272
     end
     inherited edtEmail: TEdit

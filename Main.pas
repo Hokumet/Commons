@@ -125,6 +125,7 @@ type
     procedure btnBeursClick(Sender: TObject);
     procedure btnExportToExcelClick(Sender: TObject);
     procedure SendEmailClick(Sender: TObject);
+    procedure zkLidnrKeyPress(Sender: TObject; var Key: Char);
   private
     procedure FindUpdateField(WordApp: OLEVariant; SearchString: String;
       ReplaceString: String; Flags: TWordReplaceFlags);
@@ -925,8 +926,6 @@ begin
   addColumn('Kumbara No', 'SpaarpotNr', 75);
   addColumn('Telefon No', 'Telefoonnr', 75);
   addColumn('Email', 'Email', 120);
-  addColumn('Ülke', 'Land', 75);
-  addColumn('Ögrenci ', 'YFONaam', 75);
   addColumn('Aidat Takip', 'Betaling', 70);
   addColumn('Açiklama', 'Omschrijving', 100);
 end;
@@ -983,6 +982,14 @@ end;
 procedure TfrmMain.StartProcs;
 begin
   StatusBar.Panels.Items[4].Text := Inifile.ReadString('app','worddoc', '')
+end;
+
+procedure TfrmMain.zkLidnrKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #13 then
+    RefreshData(False)
+  else
+    inherited;
 end;
 
 procedure TfrmMain.btnZoekenClick(Sender: TObject);

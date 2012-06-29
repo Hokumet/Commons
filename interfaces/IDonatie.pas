@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ISpaarpot, Data.DB, Data.Win.ADODB,
-  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls, HolderEdits;
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls, HolderEdits,
+  cyBaseLabel, cyLabel, cyDBLabel;
 
 type
   TfrmIDonatie = class(TfrmISpaarpot)

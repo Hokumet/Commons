@@ -1,7 +1,6 @@
 inherited frmBroederImpl: TfrmBroederImpl
   Caption = 'frmBroederImpl'
   ClientHeight = 634
-  ExplicitTop = 8
   ExplicitHeight = 672
   PixelsPerInch = 96
   TextHeight = 13
