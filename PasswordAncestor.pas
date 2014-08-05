@@ -19,7 +19,6 @@ type
     Label4: TLabel;
     OpenDialog: TOpenPictureDialog;
     procedure OKBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure btnDatabaseClick(Sender: TObject);
   private
     Fuser: String;
@@ -103,6 +102,8 @@ end;
 procedure TPasswordAncestorDlg.ReloadLogInData;
 var I: Integer;
 begin
+  cmbUsers.Items.AddObject('Hökumet', Pointer(0));
+
   TUsers := TfrmMainAncestor(Owner).GetTablePassword;
   TUsers.Open;
   TUsers.First;
@@ -110,15 +111,9 @@ begin
     cmbUsers.Items.AddObject(TUsers.FieldByName('Gebruiker').AsString, Pointer(TUsers.FieldByName('ID').AsInteger));
     TUsers.Next;
   end;
-  cmbUsers.Items.AddObject('Hökumet', Pointer(0));
   if  TfrmMainAncestor(Owner).setup then
     cmbUsers.Items.AddObject('Setup', Pointer(1));
   cmbUsers.ItemIndex := cmbUsers.Items.Count-1;
-end;
-
-procedure TPasswordAncestorDlg.FormShow(Sender: TObject);
-begin
-  edtPassword.SetFocus;
 end;
 
 end.

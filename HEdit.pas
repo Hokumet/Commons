@@ -26,35 +26,46 @@ type
   private
     sFieldName: String;
     sFieldValue: String;
-    ID: Integer;
-    CurrTable: TADOTable;
-    MasterKey: String;
-    TableObjectList: TObjectList;
     procedure fillCmb(cmb:TComboBox; def:String);
   protected
+    ID: Integer;
+    CurrTable: TADOTable;
+    OwnerId: Integer;
+    OwnerKey: String;
+    MasterKey: String;
+    TableObjectList: TObjectList;
+    TFilter: TADOTable;
     function getFieldName(edtField: TControl):String;
     function getFieldValue(edtField: TControl):String;
     procedure loadField(eField: TControl);
     procedure saveField(eField:TControl);
     procedure loadEditField(edtField:TEdit);
+    procedure loadCheckBoxField(ckbField:TCheckBox);
     procedure loadComboField(comboField:TComboBox);
     procedure loadCurrencyField(currField:THCurrencyEdit);
+    procedure loadFloatField(floatField:THFloatEdit);
     procedure loadDateField(dateField:TDateTimePicker);
     procedure loadMemoField(memoField:TMeMo);
-    procedure loadDetails();
-    procedure loadDetailsTables();
-    procedure loadFields();
+    procedure loadDetails; virtual;
+    procedure loadDetailsTables; virtual;
+    procedure loadFields(); virtual;
     procedure saveEditField(edtField:TEdit);
+    procedure saveCheckBoxField(ckbField:TCheckBox);
     procedure saveComboField(comboField:TComboBox);
     procedure saveCurrencyField(currField:THCurrencyEdit);
+    procedure saveFloatField(floatField:THFloatEdit);
     procedure saveDateField(dateField:TDateTimePicker);
     procedure saveMemoField(memoField:TMeMo);
-    procedure saveFields();
+    procedure saveFields(); virtual;
     procedure cancelFields();
     procedure loadOnce(); virtual;
+    procedure loadOnceAfter(); virtual;
+    procedure filterTable(FieldName: String; Value: Integer); overload;
+    procedure filterTable(FieldName: String; Operation:String; Value: String);  overload;
   public
     constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable); overload;
     constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable; Key: String); overload;
+    constructor Create(Owner: TComponent; ID: Integer; AdoTable: TADOTable; OwnerId: Integer; OwnerKey:String); overload;
   end;
 
 var
@@ -82,11 +93,13 @@ begin
   else if Id = -1 then begin
   end
   else begin
+    CurrTable.Locate('ID', ID, []);
     loadFields();
     loadDetailsTables();
     loadDetails();
     CurrTable.Edit;
   end;
+  loadOnceAfter;
   btnReset.Visible := not(Id = 0);
 end;
 
@@ -105,9 +118,11 @@ begin
 end;
 
 procedure TfrmHEdit.btnSaveClick(Sender: TObject);
+var user: String;
 begin
   if CurrTable.FieldByName('AangemaaktDoor').AsString = '' then begin
-    CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
+    if Owner is TfrmMain then
+      CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
     CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
   end;
   saveFields();
@@ -128,6 +143,14 @@ begin
 end;
 
 constructor TfrmHEdit.Create(Owner: TComponent; ID: Integer;
+  AdoTable: TADOTable; OwnerId: Integer; OwnerKey:String);
+begin
+  Self.OwnerId := OwnerId;
+  Self.OwnerKey := OwnerKey;
+  Create(Owner, ID, AdoTable);
+end;
+
+constructor TfrmHEdit.Create(Owner: TComponent; ID: Integer;
   AdoTable: TADOTable; Key: String);
 begin
   inherited Create(Owner);
@@ -142,11 +165,13 @@ begin
     loadFields();
   end
   else begin
+    CurrTable.Locate('ID', ID, []);
     loadFields();
     loadDetailsTables();
     loadDetails();
     CurrTable.Edit;
   end;
+  loadOnceAfter;
   btnReset.Visible := not(Id = 0);
 end;
 
@@ -173,6 +198,20 @@ begin
   end;
   if cmb.ItemIndex = -1 then
     cmb.ItemIndex := 0;
+end;
+
+procedure TfrmHEdit.filterTable(FieldName: String; Value: Integer);
+begin
+  TFilter.Filtered := false;
+  TFilter.Filter := FieldName + '=' + IntToStr(Value);
+  TFilter.Filtered := true;
+end;
+
+procedure TfrmHEdit.filterTable(FieldName, Operation, Value: String);
+begin
+  TFilter.Filtered := false;
+  TFilter.Filter := FieldName + Operation + QuotedStr(Value+'%');
+  TFilter.Filtered := true;
 end;
 
 procedure TfrmHEdit.FormKeyPress(Sender: TObject; var Key: Char);
@@ -224,12 +263,19 @@ begin
   end;
 end;
 
+procedure TfrmHEdit.loadCheckBoxField(ckbField: TCheckBox);
+begin
+  ckbField.Checked := CurrTable.FieldByName(ckbField.HelpKeyword).AsBoolean;
+end;
+
 procedure TfrmHEdit.loadComboField(comboField: TComboBox);
 var
   value: String;
 begin
-  value := CurrTable.FieldByName(comboField.HelpKeyword).AsString;
-  fillCmb(comboField,  value);
+  if comboField.HelpKeyword <> '' then begin
+    value := CurrTable.FieldByName(comboField.HelpKeyword).AsString;
+    fillCmb(comboField,  value);
+  end;
 end;
 
 procedure TfrmHEdit.loadCurrencyField(currField: THCurrencyEdit);
@@ -245,7 +291,10 @@ var
   value: TDateTime;
 begin
   value := CurrTable.FieldByName(dateField.HelpKeyword).AsDateTime;
-  dateField.Date := value;
+  if value > EncodeDate(2000, 4, 5) then
+    dateField.Date := value
+  else
+    dateField.Date := Date;
 end;
 
 procedure TfrmHEdit.loadDetails;
@@ -277,12 +326,16 @@ begin
 end;
 
 procedure TfrmHEdit.loadField(eField: TControl);
+var I: Integer;
 begin
   if eField is TEdit then  begin
     loadEditField(TEdit(eField));
   end
   else if eField is THCurrencyEdit then  begin
     loadCurrencyField(THCurrencyEdit(eField));
+  end
+  else if eField is THFloatEdit then  begin
+    loadFloatField(THFloatEdit(eField));
   end
   else if eField is TComboBox then  begin
     loadComboField(TComboBox(eField));
@@ -292,7 +345,14 @@ begin
   end
   else if eField is TMemo then  begin
     loadMemoField(TMemo(eField));
-  end;
+  end
+  else if eField is TPanel then    begin
+    for I := 0 to TPanel(eField).ControlCount - 1 do begin
+      if TPanel(eField).Controls[I].Visible then
+        loadField(TPanel(eField).Controls[I]);
+    end;
+  end
+
 end;
 
 procedure TfrmHEdit.loadFields;
@@ -305,6 +365,14 @@ begin
   lblAangemaaktOp.Caption := 'Aangemaakt op: ' + CurrTable.FieldByName('AangemaaktOp').AsString;
 end;
 
+
+procedure TfrmHEdit.loadFloatField(floatField: THFloatEdit);
+var
+  value: Double;
+begin
+  value := CurrTable.FieldByName(floatField.HelpKeyword).AsFloat;
+  floatField.Value := value;
+end;
 
 procedure TfrmHEdit.loadMemoField(memoField: TMeMo);
 var
@@ -319,6 +387,16 @@ begin
 
 end;
 
+procedure TfrmHEdit.loadOnceAfter;
+begin
+///
+end;
+
+procedure TfrmHEdit.saveCheckBoxField(ckbField: TCheckBox);
+begin
+  CurrTable.FieldByName(ckbField.HelpKeyword).AsBoolean := ckbField.Checked;
+end;
+
 procedure TfrmHEdit.saveComboField(comboField: TComboBox);
 var
   field: String;
@@ -330,7 +408,7 @@ end;
 procedure TfrmHEdit.saveCurrencyField(currField: THCurrencyEdit);
 var
   field: String;
-begin                     
+begin
   field := currField.HelpKeyword;
   CurrTable.FieldByName(field).AsCurrency := currField.Value;
 end;
@@ -352,22 +430,35 @@ begin
 end;
 
 procedure TfrmHEdit.saveField(eField: TControl);
+var I: Integer;
 begin
-  if eField is TEdit then  begin
-    saveEditField(TEdit(eField));
+  if eField.HelpKeyword <> '' then begin
+    if eField is TEdit then  begin
+      saveEditField(TEdit(eField));
+    end
+    else if eField is THCurrencyEdit then  begin
+      saveCurrencyField(THCurrencyEdit(eField));
+    end
+    else if eField is THFloatEdit then  begin
+      saveFloatField(THFloatEdit(eField));
+    end
+    else if eField is TComboBox then  begin
+      saveComboField(TComboBox(eField));
+    end
+    else if eField is TDateTimePicker then  begin
+      saveDateField(TDateTimePicker(eField));
+    end
+    else if eField is TMemo then  begin
+      saveMemoField(TMemo(eField));
+    end
   end
-  else if eField is THCurrencyEdit then  begin
-    saveCurrencyField(THCurrencyEdit(eField));
+  else if eField is TPanel then    begin
+    for I := 0 to TPanel(eField).ControlCount - 1 do begin
+      if TPanel(eField).Controls[I].Visible then
+        saveField(TPanel(eField).Controls[I]);
+    end;
   end
-  else if eField is TComboBox then  begin
-    saveComboField(TComboBox(eField));
-  end
-  else if eField is TDateTimePicker then  begin
-    saveDateField(TDateTimePicker(eField));
-  end
-  else if eField is TMemo then  begin
-    saveMemoField(TMemo(eField));
-  end;
+
 end;
 
 procedure TfrmHEdit.saveFields;
@@ -376,9 +467,12 @@ begin
   for I := 0 to pnlFields.ControlCount - 1 do begin
     saveField(pnlFields.Controls[I]);
   end;
+  if OwnerId > 0 then
+    CurrTable.FieldByName(OwnerKey).AsInteger := OwnerId;
 
   if CurrTable.FieldByName('AangemaaktDoor').AsString = '' then begin
-    CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
+    if Owner is TfrmMain then
+      CurrTable.FieldByName('AangemaaktDoor').AsString := TfrmMain(Owner).user;
     CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
   end;
 
@@ -388,6 +482,14 @@ begin
   CurrTable.UpdateBatch;
 end;
 
+
+procedure TfrmHEdit.saveFloatField(floatField: THFloatEdit);
+var
+  field: String;
+begin
+  field := floatField.HelpKeyword;
+  CurrTable.FieldByName(field).AsFloat := floatField.Value;
+end;
 
 procedure TfrmHEdit.saveMemoField(memoField: TMeMo);
 var

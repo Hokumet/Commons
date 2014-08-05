@@ -113,6 +113,7 @@ type
       alignment: TAlignment); overload;
     procedure addColumn(CaptionName, FieldName: string; Size: Integer);overload;
     procedure addColumn(CaptionName, FieldName, FieldType: string; Size: Integer);overload;
+    procedure addColumn(CaptionName, FieldName, FieldType: string; Size: Integer; AutoSize:Boolean);overload;
     procedure OpenDatasets; virtual;
     procedure ExecuteFix; virtual;
     procedure SetDBReady(Filter, SortField: String);
@@ -203,7 +204,8 @@ end;
 
 procedure TfrmMainAncestor.btnDeleteClick(Sender: TObject);
 begin
-  if MessageDlg('Weet u zeker dat u wilt verwijderen?', mtConfirmation,
+
+  if MessageDlg('Weet u zeker dat u "'+lvwItems.Selected.Caption+'" wilt verwijderen?', mtConfirmation,
     [mbOK, mbCancel], 0) = mrOk then
   begin
     if lvwItems.Selected = nil then
@@ -294,6 +296,9 @@ end;
 
 procedure TfrmMainAncestor.LoadFiltered(SQL: String);
 begin
+  CurrentTable.Filtered := false;
+  CurrentTable.Filter := SQl;
+  CurrentTable.Filtered := true;
   // moet in deinherited
 end;
 
@@ -435,6 +440,21 @@ begin
   FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
 end;
 
+procedure TfrmMainAncestor.addColumn(CaptionName, FieldName, FieldType: string;
+  Size: Integer; AutoSize: Boolean);
+var
+  column: TListColumn;
+begin
+  column := lvwItems.Columns.Add;
+  column.Caption := CaptionName;
+  column.Width := -2;
+  column.alignment := taLeftJustify;
+  column.AutoSize := AutoSize;
+  FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
+  if FieldType <> 'niks' then
+    FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
+end;
+
 
 procedure TfrmMainAncestor.addColumn(CaptionName, FieldName: string;
   Size: Integer);
@@ -509,6 +529,7 @@ end;
 procedure TfrmMainAncestor.Initialize(var Message: TMessage);
 var
   Bool: Boolean;
+  showRes: Integer;
 begin
 {$IFDEF HKC}
   OpenDatasets;
@@ -520,7 +541,9 @@ begin
     'path', '');
 
   try
-    if PasswordAncestorDlg.ShowModal = mrOk then
+    showRes := PasswordAncestorDlg.ShowModal;
+    PasswordAncestorDlg.ActiveControl := PasswordAncestorDlg.cmbUsers;
+    if showRes = mrOk then
     begin
       user := PasswordAncestorDlg.user;
       StatusBar.Panels.Items[1].Text := user;
@@ -612,7 +635,7 @@ begin
   Strlist.Add('Provider=Microsoft.ACE.OLEDB.12.0;');
   Strlist.Add('Data Source=' + PathZ);
   Strlist.Add
-    ('Persist Security Info=True;Jet OLEDB:Database Password=ihhmuhasebe');
+    ('Persist Security Info=True;Jet OLEDB:Database Password=adafactuur');
 
   DBCConnection.ConnectionString := Strlist.Text;
   DBCConnection.Connected := True;
@@ -788,5 +811,6 @@ begin
   end;
   Screen.Cursor := crDefault;
 end;
+
 
 end.

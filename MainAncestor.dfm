@@ -765,21 +765,21 @@ object frmMainAncestor: TfrmMainAncestor
       item
         Control = ToolBar
         ImageIndex = -1
-        MinHeight = 64
-        Width = 895
+        MinHeight = 56
+        Width = 897
       end>
     Color = clBtnFace
     EdgeBorders = [ebTop]
     ParentColor = False
     object ToolBar: TToolBar
-      Left = 11
+      Left = 9
       Top = 0
-      Width = 886
-      Height = 64
+      Width = 888
+      Height = 56
       AutoSize = True
       BorderWidth = 1
-      ButtonHeight = 60
-      ButtonWidth = 70
+      ButtonHeight = 52
+      ButtonWidth = 64
       Caption = 'ToolBar'
       Color = clBlue
       Images = imgMainButtons
@@ -796,7 +796,7 @@ object frmMainAncestor: TfrmMainAncestor
         Style = tbsDropDown
       end
       object btnEdit: TToolButton
-        Left = 85
+        Left = 77
         Top = 0
         Caption = '&Wijzigen'
         Enabled = False
@@ -804,7 +804,7 @@ object frmMainAncestor: TfrmMainAncestor
         OnClick = btnEditClick
       end
       object btnDelete: TToolButton
-        Left = 155
+        Left = 141
         Top = 0
         Caption = '&Verwijderen'
         Enabled = False
@@ -812,7 +812,7 @@ object frmMainAncestor: TfrmMainAncestor
         OnClick = btnDeleteClick
       end
       object Seperator: TToolButton
-        Left = 225
+        Left = 205
         Top = 0
         Width = 14
         Caption = 'Seperator'
@@ -820,21 +820,21 @@ object frmMainAncestor: TfrmMainAncestor
         Style = tbsSeparator
       end
       object btnPrint: TToolButton
-        Left = 239
+        Left = 219
         Top = 0
         Caption = '&Voorbeeld'
         ImageIndex = 14
         OnClick = btnPrintClick
       end
       object btnPrinten: TToolButton
-        Left = 309
+        Left = 283
         Top = 0
         Caption = '&Printen'
         ImageIndex = 12
         OnClick = btnPrintenClick
       end
       object ToolButton2: TToolButton
-        Left = 379
+        Left = 347
         Top = 0
         Width = 8
         Caption = 'ToolButton2'
@@ -842,7 +842,7 @@ object frmMainAncestor: TfrmMainAncestor
         Style = tbsSeparator
       end
       object btnBegin: TToolButton
-        Left = 387
+        Left = 355
         Top = 0
         Caption = 'BeginPunt'
         ImageIndex = 13
@@ -887,7 +887,7 @@ object frmMainAncestor: TfrmMainAncestor
     Left = 48
     Top = 232
     Bitmap = {
-      494C01011F002200980020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011F00B000B00020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000000001000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5122,7 +5122,7 @@ object frmMainAncestor: TfrmMainAncestor
     Left = 48
     Top = 160
     Bitmap = {
-      494C010113001800980010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01011300B000B00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
