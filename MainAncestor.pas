@@ -74,6 +74,9 @@ type
     procedure pmpNewKopieClick(Sender: TObject);
     procedure btnPrintenClick(Sender: TObject);
     procedure btnBeginClick(Sender: TObject);
+    procedure lvwItemsCompare(Sender: TObject; Item1, Item2: TListItem;
+      Data: Integer; var Compare: Integer);
+    procedure lvwItemsColumnClick(Sender: TObject; Column: TListColumn);
   private
     TrayIconData: TNotifyIconData;
     procedure TrayMessage(var Msg: TMessage); message WM_ICONTRAY;
@@ -81,6 +84,10 @@ type
     procedure LoadDatabase;
 
   protected
+    Loading: Boolean;
+    Descending: Boolean;
+    SortedColumn: Integer;
+    SortedCurColumn: TListColumn;
     FieldCaptionAndFieldName: TStringList;
     FieldCaptionAndFieldType: TStringList;
     DatabaseLocation: String;
@@ -108,6 +115,7 @@ type
       FName: String);
     procedure OpenSettings(frmSettingAnc: TfrmSettingAncestor);
     procedure ShowOverzicht; virtual;
+    procedure DoSomeThingElse; virtual;
     procedure addColumn(Name: STring; Size: Integer); overload;
     procedure addColumn(Name: STring; Size: Integer;
       alignment: TAlignment); overload;
@@ -138,7 +146,7 @@ var
 
 implementation
 
-uses StrUtils, ComObj;
+uses StrUtils, ComObj,Math, DateUtils;
 
 {$R *.dfm}
 
@@ -167,6 +175,20 @@ const
   LVBKIF_STYLE_TILE = 16;
   LVBKIF_STYLE_MASK = 16;
 
+function CompareTextAsInteger(const s1, s2: string): Integer;
+begin
+  Result := CompareValue(StrToInt(s1), StrToInt(s2));
+end;
+function CompareTextAsDouble(const s1, s2: string): Integer;
+begin
+  Result := CompareValue(StrToCurr(s1), StrToCurr(s2));
+end;
+
+function CompareTextAsDateTime(const s1, s2: string): Integer;
+begin
+  Result := CompareDateTime(StrToDateTime(s1), StrToDateTime(s2));
+end;
+
 procedure TfrmMainAncestor.FormCreate(Sender: TObject);
 begin
   Inifile := TIniFile.Create(ExtractFilePath(Application.ExeName) +
@@ -178,6 +200,38 @@ begin
   FieldCaptionAndFieldName := TStringList.Create;
   FieldCaptionAndFieldType := TStringList.Create;
   ReloadDatabase;
+end;
+
+procedure TfrmMainAncestor.lvwItemsColumnClick(Sender: TObject;
+  Column: TListColumn);
+begin
+  TListView(Sender).SortType := stNone;
+  if Column.Index<>SortedColumn then begin
+    SortedColumn := Column.Index;
+    Descending := False;
+    SortedCurColumn := Column;
+  end
+  else
+    Descending := not Descending;
+  TListView(Sender).SortType := stText;
+end;
+
+procedure TfrmMainAncestor.lvwItemsCompare(Sender: TObject; Item1,
+  Item2: TListItem; Data: Integer; var Compare: Integer);
+begin
+  if Not Loading then begin
+    if SortedColumn = 0 then
+      Compare := CompareTextAsInteger(Item1.Caption, Item2.Caption)
+    else
+      if SortedCurColumn.Tag = 1 then
+        Compare := CompareTextAsDouble(StringReplace(Item1.SubItems[SortedColumn-1], '€ ', '', [rfReplaceAll, rfIgnoreCase]), StringReplace(Item2.SubItems[SortedColumn-1], '€ ', '', [rfReplaceAll, rfIgnoreCase]))
+      else if SortedCurColumn.Tag = 2 then
+        Compare := CompareTextAsDateTime(Item1.SubItems[SortedColumn-1], Item2.SubItems[SortedColumn-1])
+      else
+        Compare := CompareText(Item1.SubItems[SortedColumn-1], Item2.SubItems[SortedColumn-1]);
+      if Descending then
+        Compare := -Compare;
+  end;
 end;
 
 procedure TfrmMainAncestor.lvwItemsSelectItem(Sender: TObject; Item: TListItem;
@@ -436,6 +490,12 @@ begin
   column.Caption := CaptionName;
   column.Width := Size;
   column.alignment := taLeftJustify;
+  if FieldType = 'curr' then
+    column.Tag := 1
+  else if FieldType = 'date' then
+    column.Tag := 2
+  else
+    column.Tag := 0;
   FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
   FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
 end;
@@ -450,6 +510,14 @@ begin
   column.Width := -2;
   column.alignment := taLeftJustify;
   column.AutoSize := AutoSize;
+
+  if FieldType = 'curr' then
+    column.Tag := 1
+  else if FieldType = 'date' then
+    column.Tag := 2
+  else
+    column.Tag := 0;
+
   FieldCaptionAndFieldName.Values[CaptionName] := FieldName;
   if FieldType <> 'niks' then
     FieldCaptionAndFieldType.Values[CaptionName] := FieldType;
@@ -652,13 +720,17 @@ begin
 end;
 
 procedure TfrmMainAncestor.btnEditClick(Sender: TObject);
+var ShowModal: Integer;
 begin
+  ShowModal :=  frmHEdit.ShowModal;
   try
-    if frmHEdit.ShowModal = mrOk then
-      Refresh;
+    if ShowModal = mrOk then
+      Refresh
   finally
     frmHEdit.Free;
   end;
+  if ShowModal = mrYes then
+      DoSomeThingElse;
 end;
 
 procedure TfrmMainAncestor.ButtonClicked;
@@ -722,6 +794,11 @@ end;
 procedure TfrmMainAncestor.CloseDatase;
 begin
   DBCConnection.Close;
+end;
+
+procedure TfrmMainAncestor.DoSomeThingElse;
+begin
+  // In the inherited after use saved form without OK Button
 end;
 
 procedure TfrmMainAncestor.CloneSubRow(ATable, CloneTable: TADOTable;

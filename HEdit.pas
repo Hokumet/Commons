@@ -40,6 +40,7 @@ type
     procedure loadField(eField: TControl);
     procedure saveField(eField:TControl);
     procedure loadEditField(edtField:TEdit);
+    procedure loadRbtnGroupField(rbtnGrpField:TRadioGroup);
     procedure loadCheckBoxField(ckbField:TCheckBox);
     procedure loadComboField(comboField:TComboBox);
     procedure loadCurrencyField(currField:THCurrencyEdit);
@@ -50,6 +51,7 @@ type
     procedure loadDetailsTables; virtual;
     procedure loadFields(); virtual;
     procedure saveEditField(edtField:TEdit);
+    procedure saveRbtnGroupField(rbtnGrpField:TRadioGroup);
     procedure saveCheckBoxField(ckbField:TCheckBox);
     procedure saveComboField(comboField:TComboBox);
     procedure saveCurrencyField(currField:THCurrencyEdit);
@@ -291,7 +293,11 @@ var
   value: TDateTime;
 begin
   value := CurrTable.FieldByName(dateField.HelpKeyword).AsDateTime;
-  if value > EncodeDate(2000, 4, 5) then
+  if dateField.ImeName <> '' then begin
+    if value > EncodeDate(2012, 12, 12) then
+      dateField.Date := value
+  end
+  else if value > EncodeDate(2012, 12, 12) then
     dateField.Date := value
   else
     dateField.Date := Date;
@@ -346,6 +352,9 @@ begin
   else if eField is TMemo then  begin
     loadMemoField(TMemo(eField));
   end
+  else if eField is TRadioGroup then  begin
+    loadRbtnGroupField(TRadioGroup(eField));
+  end
   else if eField is TPanel then    begin
     for I := 0 to TPanel(eField).ControlCount - 1 do begin
       if TPanel(eField).Controls[I].Visible then
@@ -392,6 +401,14 @@ begin
 ///
 end;
 
+procedure TfrmHEdit.loadRbtnGroupField(rbtnGrpField: TRadioGroup);
+var
+  value: String;
+begin
+  value := CurrTable.FieldByName(rbtnGrpField.HelpKeyword).AsString;
+  rbtnGrpField.ItemIndex := rbtnGrpField.Items.IndexOf(value);
+end;
+
 procedure TfrmHEdit.saveCheckBoxField(ckbField: TCheckBox);
 begin
   CurrTable.FieldByName(ckbField.HelpKeyword).AsBoolean := ckbField.Checked;
@@ -400,7 +417,7 @@ end;
 procedure TfrmHEdit.saveComboField(comboField: TComboBox);
 var
   field: String;
-begin                     
+begin
   field := comboField.HelpKeyword;
   CurrTable.FieldByName(field).AsString := comboField.Text;
 end;
@@ -451,6 +468,9 @@ begin
     else if eField is TMemo then  begin
       saveMemoField(TMemo(eField));
     end
+    else if eField is TRadioGroup then  begin
+      saveRbtnGroupField(TRadioGroup(eField));
+    end
   end
   else if eField is TPanel then    begin
     for I := 0 to TPanel(eField).ControlCount - 1 do begin
@@ -476,10 +496,12 @@ begin
     CurrTable.FieldByName('AangemaaktOp').AsDateTime := Date;
   end;
 
-  for I := 0 to TableObjectList.Count -1 do begin
-    TADOTable(TableObjectList.Items[I]).UpdateBatch;
+  if self.Hint <> 'Detail' then begin
+    for I := 0 to TableObjectList.Count -1 do begin
+      TADOTable(TableObjectList.Items[I]).UpdateBatch;
+    end;
+    CurrTable.UpdateBatch;
   end;
-  CurrTable.UpdateBatch;
 end;
 
 
@@ -497,6 +519,14 @@ var
 begin
   field := memoField.HelpKeyword;
   CurrTable.FieldByName(field).AsString := memoField.Lines.Text;
+end;
+
+procedure TfrmHEdit.saveRbtnGroupField(rbtnGrpField:TRadioGroup);
+var
+  field: String;
+begin
+  field := rbtnGrpField.HelpKeyword;
+  CurrTable.FieldByName(field).AsString := rbtnGrpField.Items[rbtnGrpField.ItemIndex];
 end;
 
 end.
