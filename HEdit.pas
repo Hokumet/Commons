@@ -35,6 +35,7 @@ type
     MasterKey: String;
     TableObjectList: TObjectList;
     TFilter: TADOTable;
+    Loading: boolean;
     function getFieldName(edtField: TControl):String;
     function getFieldValue(edtField: TControl):String;
     procedure loadField(eField: TControl);
@@ -83,6 +84,7 @@ constructor TfrmHEdit.Create(Owner: TComponent; ID: Integer;
   AdoTable: TADOTable);
 begin
   inherited Create(Owner);
+  Loading := true;
   TableObjectList := TObjectList.Create;
   CurrTable := AdoTable;
   CurrQuery.Connection := CurrTable.Connection;
@@ -103,6 +105,7 @@ begin
   end;
   loadOnceAfter;
   btnReset.Visible := not(Id = 0);
+  Loading := false;
 end;
 
 procedure TfrmHEdit.btnCancelClick(Sender: TObject);
@@ -156,6 +159,7 @@ constructor TfrmHEdit.Create(Owner: TComponent; ID: Integer;
   AdoTable: TADOTable; Key: String);
 begin
   inherited Create(Owner);
+  Loading := true;
   TableObjectList := TObjectList.Create;
   CurrTable := AdoTable;
   CurrQuery.Connection := CurrTable.Connection;
@@ -175,6 +179,7 @@ begin
   end;
   loadOnceAfter;
   btnReset.Visible := not(Id = 0);
+  Loading := false;
 end;
 
 procedure TfrmHEdit.fillCmb(cmb: TComboBox; def: String);

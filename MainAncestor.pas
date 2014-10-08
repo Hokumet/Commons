@@ -662,7 +662,7 @@ procedure TfrmMainAncestor.ReloadDatabase;
 begin
   CloseDatase;
   LoadDatabase;
-  Refresh;
+//  Refresh;
 end;
 
 procedure TfrmMainAncestor.LoadDatabase;
@@ -676,6 +676,7 @@ begin
   DatabaseName := ExtractFileName(Application.ExeName);
   Strlist := TStringList.Create;
 
+    try
   if DatabaseLocation = '' then
   begin
     DatabaseLocation := ExtractFileDir(Application.ExeName);
@@ -705,8 +706,11 @@ begin
   Strlist.Add
     ('Persist Security Info=True;Jet OLEDB:Database Password=adafactuur');
 
-  DBCConnection.ConnectionString := Strlist.Text;
-  DBCConnection.Connected := True;
+      DBCConnection.ConnectionString := Strlist.Text;
+      DBCConnection.Connected := True;
+    except on E: Exception do
+      ShowMessage('Exception when connecting to : '+ Strlist.Text + '\n' + E.Message);
+    end;
 
   // Provider=Microsoft.ACE.OLEDB.12.0;Password="";
   // Data Source=D:\temp\Administratie.accdb;
