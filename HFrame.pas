@@ -72,7 +72,6 @@ begin
   column.Alignment := alingment;
 
   lvwItems.Columns.EndUpdate;
-
 end;
 
 procedure TfrAncestor.lvwItemsSelectItem(Sender: TObject; Item: TListItem;

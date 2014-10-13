@@ -52,6 +52,7 @@ type
     DBTClone: TADOTable;
     ToolButton2: TToolButton;
     btnPrinten: TToolButton;
+    Timer: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure lvwItemsSelectItem(Sender: TObject; Item: TListItem;
@@ -77,8 +78,12 @@ type
     procedure lvwItemsCompare(Sender: TObject; Item1, Item2: TListItem;
       Data: Integer; var Compare: Integer);
     procedure lvwItemsColumnClick(Sender: TObject; Column: TListColumn);
+    procedure lvwItemsCustomDrawItem(Sender: TCustomListView; Item: TListItem;
+      State: TCustomDrawState; var DefaultDraw: Boolean);
+    procedure TimerTimer(Sender: TObject);
   private
     TrayIconData: TNotifyIconData;
+    function myHexToColor(AValue: String): TColor;
     procedure TrayMessage(var Msg: TMessage); message WM_ICONTRAY;
     procedure Initialize(var Message: TMessage); message WM_USER;
     procedure LoadDatabase;
@@ -100,6 +105,8 @@ type
     SQL: String;
     frmHEdit: TfrmHEdit;
     showFix: Boolean;
+    loginScreenIsShown:boolean;
+    procedure ShowLoginScreen(Bool: Boolean);
     procedure ListDataToExcel;
     procedure CloseDatase;
     procedure SetFilterFalse;
@@ -232,6 +239,31 @@ begin
       if Descending then
         Compare := -Compare;
   end;
+end;
+
+procedure TfrmMainAncestor.lvwItemsCustomDrawItem(Sender: TCustomListView;
+  Item: TListItem; State: TCustomDrawState; var DefaultDraw: Boolean);
+begin
+  if (Item.Index mod 2) = 0 then begin
+    Sender.Canvas.Brush.Color :=  myHexToColor('ebf1fa');
+  end
+  else begin
+    Sender.Canvas.Brush.Color := clWhite;
+  end;
+end;
+
+
+function TfrmMainAncestor.myHexToColor(AValue: String): TColor;
+var
+  iRed: Integer;
+  iGreen: Integer;
+  iBlue: Integer;
+begin
+  iRed := StrToInt('$' + AValue[1] + AValue[2]);
+  iGreen := StrToInt('$' + AValue[3] + AValue[4]);
+  iBlue := StrToInt('$' + AValue[5] + AValue[6]);
+  Result := RGB(iRed, iGreen, iBlue);
+//myresult:=IntToStr(Result);
 end;
 
 procedure TfrmMainAncestor.lvwItemsSelectItem(Sender: TObject; Item: TListItem;
@@ -432,6 +464,21 @@ begin
   // In the inherited
 end;
 
+procedure TfrmMainAncestor.TimerTimer(Sender: TObject);
+var liInfo: TLastInputInfo;
+    timeIdle: DWORD;
+    lockInSeconds: Integer;
+begin
+   lockInSeconds := Inifile.ReadInteger('app', 'logouttime', 180);
+   liInfo.cbSize := SizeOf(TLastInputInfo) ;
+   GetLastInputInfo(liInfo) ;
+   timeIdle := (GetTickCount - liInfo.dwTime) DIV 1000;
+   if(timeIdle > lockInSeconds) and not (loginScreenIsShown) then begin
+      lvwItems.Clear;
+      ShowLoginScreen(False);
+   end;
+end;
+
 procedure TfrmMainAncestor.TrayMessage(var Msg: TMessage);
 var
   Point: TPoint;
@@ -585,6 +632,37 @@ begin
   Result := nil;
 end;
 
+procedure TfrmMainAncestor.ShowLoginScreen(Bool: Boolean);
+var
+  showRes: Integer;
+begin
+  PasswordAncestorDlg := TPasswordAncestorDlg.Create(Self);
+  PasswordAncestorDlg.edtDatabase.Text := Inifile.ReadString('database',
+    'path', '');
+
+  try
+    loginScreenIsShown := true;
+    showRes := PasswordAncestorDlg.ShowModal;
+    PasswordAncestorDlg.ActiveControl := PasswordAncestorDlg.cmbUsers;
+    if showRes = mrOk then
+    begin
+      user := PasswordAncestorDlg.user;
+      StatusBar.Panels.Items[1].Text := user;
+      userType := PasswordAncestorDlg.userType;
+      loginScreenIsShown := false;
+      Bool := True;
+      OpenDatasets;
+      Refresh;
+    end;
+  finally
+    PasswordAncestorDlg.Free;
+    if not Bool then
+      Application.Terminate;
+  end;
+  // else
+  // btnGebruikers.Visible := not(userType = 1);
+end;
+
 procedure TfrmMainAncestor.FormDestroy(Sender: TObject);
 begin
   Inifile.Free;
@@ -597,36 +675,13 @@ end;
 procedure TfrmMainAncestor.Initialize(var Message: TMessage);
 var
   Bool: Boolean;
-  showRes: Integer;
 begin
 {$IFDEF HKC}
   OpenDatasets;
   btnBegin.Click;
 {$ELSE}
   Bool := False;
-  PasswordAncestorDlg := TPasswordAncestorDlg.Create(Self);
-  PasswordAncestorDlg.edtDatabase.Text := Inifile.ReadString('database',
-    'path', '');
-
-  try
-    showRes := PasswordAncestorDlg.ShowModal;
-    PasswordAncestorDlg.ActiveControl := PasswordAncestorDlg.cmbUsers;
-    if showRes = mrOk then
-    begin
-      user := PasswordAncestorDlg.user;
-      StatusBar.Panels.Items[1].Text := user;
-      userType := PasswordAncestorDlg.userType;
-      Bool := True;
-      OpenDatasets;
-      Refresh;
-    end;
-  finally
-    PasswordAncestorDlg.Free;
-    if not Bool then
-      Application.Terminate()
-      // else
-      // btnGebruikers.Visible := not(userType = 1);
-  end;
+  ShowLoginScreen(Bool);
 
 {$ENDIF}
 end;
@@ -704,7 +759,7 @@ begin
   Strlist.Add('Provider=Microsoft.ACE.OLEDB.12.0;');
   Strlist.Add('Data Source=' + PathZ);
   Strlist.Add
-    ('Persist Security Info=True;Jet OLEDB:Database Password=adafactuur');
+    ('Persist Security Info=True;Jet OLEDB:Database Password=Keloglan2014');
 
       DBCConnection.ConnectionString := Strlist.Text;
       DBCConnection.Connected := True;
