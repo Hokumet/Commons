@@ -122,7 +122,7 @@ type
       FName: String);
     procedure OpenSettings(frmSettingAnc: TfrmSettingAncestor);
     procedure ShowOverzicht; virtual;
-    procedure DoSomeThingElse; virtual;
+    procedure DoSomeThingElse(Id: Integer); virtual;
     procedure addColumn(Name: STring; Size: Integer); overload;
     procedure addColumn(Name: STring; Size: Integer;
       alignment: TAlignment); overload;
@@ -789,7 +789,7 @@ begin
     frmHEdit.Free;
   end;
   if ShowModal = mrYes then
-      DoSomeThingElse;
+      DoSomeThingElse(0);
 end;
 
 procedure TfrmMainAncestor.ButtonClicked;
