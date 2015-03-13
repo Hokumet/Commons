@@ -789,7 +789,7 @@ begin
     frmHEdit.Free;
   end;
   if ShowModal = mrYes then
-      DoSomeThingElse(0);
+      DoSomeThingElse(CurrentId);
 end;
 
 procedure TfrmMainAncestor.ButtonClicked;
